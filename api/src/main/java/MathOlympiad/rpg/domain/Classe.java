@@ -19,13 +19,13 @@ public class Classe {
     private Long id;
     private String imagem;
 
-    private Integer forca;
+    private Double forca;
 
     private Integer fama;
 
-    private Integer destreza;
+    private Double destreza;
 
-    private Integer vida;
+    private Double vida;
 
     private Integer nivel;
 

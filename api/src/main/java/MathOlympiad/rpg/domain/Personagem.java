@@ -9,8 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -29,6 +32,7 @@ public class Personagem {
     @JoinColumn(name = "id_classe")
     private Classe classe;
 
+    private BigDecimal dinheiro;
 
     @ManyToOne
     @JoinColumn(name = "id_quest")
@@ -37,5 +41,17 @@ public class Personagem {
 
     @JoinColumn(name = "termino_ultima_quest")
     private LocalDateTime  terminoUltimaQuest;
+
+    @ManyToMany
+    @JoinTable(
+            name = "personagem_item",
+            joinColumns = @JoinColumn(name = "id_personagem"),
+            inverseJoinColumns = @JoinColumn(name = "id_item")
+    )
+    private List<Item> itens = new ArrayList<>();
+
+    private Integer vitorias;
+
+    private Integer derrotas;
 
 }

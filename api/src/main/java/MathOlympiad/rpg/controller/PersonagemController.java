@@ -2,6 +2,7 @@ package MathOlympiad.rpg.controller;
 
 
 import MathOlympiad.rpg.controller.request.CriarPersonagemRequest;
+import MathOlympiad.rpg.controller.request.PersonagemRequest;
 import MathOlympiad.rpg.controller.response.ListarItensIventarioResponse;
 import MathOlympiad.rpg.controller.response.ListarPersonagensResponse;
 import MathOlympiad.rpg.service.personagem.CriarPersonagemService;
@@ -40,8 +41,8 @@ public class PersonagemController {
 
     }
     @GetMapping("/iventario/{id}")
-    public ListarItensIventarioResponse listarInventario(@PathVariable Long id) {
-        return listarInventarioService.listar(id);
+    public ListarItensIventarioResponse listarInventario(@Valid @RequestBody PersonagemRequest request) {
+        return listarInventarioService.listar(request);
     }
 
     @GetMapping()

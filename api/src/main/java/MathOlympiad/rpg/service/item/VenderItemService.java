@@ -1,9 +1,12 @@
 package MathOlympiad.rpg.service.item;
 
+import MathOlympiad.rpg.controller.request.PersonagemRequest;
 import MathOlympiad.rpg.domain.Item;
-import MathOlympiad.rpg.domain.Usuario;
-import MathOlympiad.rpg.repository.UsuarioRepository;
-import MathOlympiad.rpg.security.service.UsuarioAutenticadoService;
+import MathOlympiad.rpg.domain.Personagem;
+import MathOlympiad.rpg.repository.PersonagemRepository;
+import MathOlympiad.rpg.service.VerificarItemExisteNoIventarioService;
+import MathOlympiad.rpg.service.VerificarPersonagemPertenceAUsuarioService;
+import MathOlympiad.rpg.service.personagem.BuscarPersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +16,35 @@ import java.math.BigDecimal;
 public class VenderItemService {
 
     @Autowired
-    UsuarioAutenticadoService usuarioAutenticadoService;
+    BuscarPersonagemService buscarPersonagemService;
 
     @Autowired
     BuscarItemService buscarItemService;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    VerificarPersonagemPertenceAUsuarioService verificarPersonagemPertenceAUsuarioService;
 
-    public void vender(Long id) {
+    @Autowired
+    VerificarItemExisteNoIventarioService verificarItemExisteNoIventarioService;
 
-        Usuario usuario = usuarioAutenticadoService.get();
+    @Autowired
+    PersonagemRepository personagemRepository;
+
+    public void vender(Long id, PersonagemRequest request) {
+
+        Personagem personagem = buscarPersonagemService.buscar(request.getPeronsagemId());
 
         Item item = buscarItemService.buscar(id);
 
-        usuario.getItens().remove(item);
+        verificarPersonagemPertenceAUsuarioService.verificar(personagem);
 
-        usuario.setDinheiro(item.getPreco().divide(BigDecimal.valueOf(2)));
+        verificarItemExisteNoIventarioService.verificar(item, personagem);
 
-        usuarioRepository.save(usuario);
+        personagem.getItens().remove(item);
+
+        personagem.setDinheiro(item.getPreco().divide(BigDecimal.valueOf(2)));
+
+        personagemRepository.save(personagem);
     }
 
 }

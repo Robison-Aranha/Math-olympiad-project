@@ -29,7 +29,7 @@ public class Item {
 
     private String nome;
 
-    private Integer valor;
+    private Double valor;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ITEM_TIPOS")

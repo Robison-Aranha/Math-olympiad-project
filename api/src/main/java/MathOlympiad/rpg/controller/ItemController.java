@@ -1,6 +1,7 @@
 package MathOlympiad.rpg.controller;
 
 
+import MathOlympiad.rpg.controller.request.PersonagemRequest;
 import MathOlympiad.rpg.service.item.ComprarItemService;
 import MathOlympiad.rpg.service.item.UsarItemService;
 import MathOlympiad.rpg.service.item.VenderItemService;
@@ -22,18 +23,18 @@ public class ItemController {
 
 
     @PostMapping("/comprar/{id}")
-    public void comprarItem(@PathVariable Long id) {
-        comprarItemService.comprar(id);
+    public void comprarItem(@PathVariable Long id, @RequestBody PersonagemRequest request) {
+        comprarItemService.comprar(id, request);
     }
 
     @PostMapping("/vender/{id}")
-    public void venderItem(@PathVariable Long id) {
-        venderItemService.vender(id);
+    public void venderItem(@PathVariable Long id,  @RequestBody PersonagemRequest request) {
+        venderItemService.vender(id, request);
     }
 
     @PostMapping("/usar/{id}")
-    public void usarItem(@PathVariable Long id) {
-        usarItemService.usar(id);
+    public void usarItem(@PathVariable Long id,  @RequestBody PersonagemRequest request) {
+        usarItemService.usar(id, request);
     }
 
 }

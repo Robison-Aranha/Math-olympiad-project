@@ -1,41 +1,54 @@
 package MathOlympiad.rpg.service.item;
 
 
+import MathOlympiad.rpg.controller.request.PersonagemRequest;
 import MathOlympiad.rpg.domain.Item;
-import MathOlympiad.rpg.domain.Usuario;
-import MathOlympiad.rpg.repository.UsuarioRepository;
-import MathOlympiad.rpg.security.service.UsuarioAutenticadoService;
+import MathOlympiad.rpg.domain.Personagem;
+import MathOlympiad.rpg.repository.PersonagemRepository;
+import MathOlympiad.rpg.service.VerificarItemExisteNoIventarioService;
+import MathOlympiad.rpg.service.VerificarPersonagemPertenceAUsuarioService;
+import MathOlympiad.rpg.service.personagem.BuscarPersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UsarItemService {
 
     @Autowired
-    UsuarioAutenticadoService usuarioAutenticadoService;
-
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    BuscarPersonagemService buscarPersonagemService;
 
     @Autowired
     BuscarItemService buscarItemService;
 
-    public void usar(Long id) {
+    @Autowired
+    VerificarPersonagemPertenceAUsuarioService verificarPersonagemPertenceAUsuarioService;
 
-        Usuario usuario = usuarioAutenticadoService.get();
+    @Autowired
+    VerificarItemExisteNoIventarioService verificarItemExisteNoIventarioService;
+
+    @Autowired
+    PersonagemRepository personagemRepository;
+
+    @Autowired
+    VerificarSeItemEUtilizavelService verificarSeItemEUtilizavelService;
+
+
+    public void usar(Long id, PersonagemRequest request) {
+
+        Personagem personagem = buscarPersonagemService.buscar(request.getPeronsagemId());
 
         Item item = buscarItemService.buscar(id);
 
-        if (usuario.getItens().contains(item)) {
+        verificarSeItemEUtilizavelService.verificar(item);
 
-            usuario.getItens().remove(item);
+        verificarPersonagemPertenceAUsuarioService.verificar(personagem);
 
-            usuarioRepository.save(usuario);
-        }
+        verificarItemExisteNoIventarioService.verificar(item, personagem);
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Item não encontrado no iventario!");
+        personagem.getItens().remove(item);
+
+        personagemRepository.save(personagem);
+
     }
 
 }

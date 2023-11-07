@@ -24,8 +24,6 @@ public class Usuario {
 
     private String senha;
 
-    private BigDecimal dinheiro;
-
     private boolean ativo;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -38,14 +36,6 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "id_personagem")
     )
     private List<Personagem> personagens = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "usuario_item",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_item")
-    )
-    private List<Item> itens = new ArrayList<>();
 
     public void adicionarPermissao(Permissao permissao) {
         this.permissoes.add(permissao);
