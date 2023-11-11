@@ -15,7 +15,6 @@ public class VerificarSeItemEEquipavelService {
 
         List<ItemTipos> utilitarios = new ArrayList<>();
         utilitarios.add(ItemTipos.ARMA);
-        utilitarios.add(ItemTipos.DEFESA);
         utilitarios.add(ItemTipos.ARMADURA);
 
         if (utilitarios.contains(item.getTipo())) {

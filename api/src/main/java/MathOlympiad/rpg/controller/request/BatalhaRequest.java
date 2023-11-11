@@ -15,7 +15,4 @@ public class BatalhaRequest {
     @NotBlank
     private Long personagemAdversario;
 
-
-    private ArrayList<Long> itensAUsar;
-
 }

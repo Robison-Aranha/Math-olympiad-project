@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 
@@ -18,18 +21,15 @@ public class Classe {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String imagem;
-
-    private Double forca;
-
-    private Integer fama;
-
-    private Double destreza;
-
-    private Double vida;
-
-    private Integer nivel;
-
     private String descricao;
+
+    @ManyToMany
+    @JoinTable(
+            name = "classe_atributo",
+            joinColumns = @JoinColumn(name = "id_classe"),
+            inverseJoinColumns = @JoinColumn(name = "id_atributo")
+    )
+    private List<Atributo> atributos = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Cla cla;

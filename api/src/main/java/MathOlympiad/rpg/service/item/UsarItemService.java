@@ -45,6 +45,20 @@ public class UsarItemService {
 
         verificarItemExisteNoIventarioService.verificar(item, personagem);
 
+        switch (item.getTipo().name()) {
+
+            case "DESTREZA":
+                personagem.getAtributos().stream().filter(a -> );
+                break;
+            case "FORCA":
+                personagem.getAtributo().setForca(item.getValor() + personagem.getAtributo().getForca());
+                break;
+            case "NIVEL":
+                personagem.getAtributo().setNivel(item.getValor() + personagem.getAtributo().getNivel());
+            case "VIDA":
+                personagem.getAtributo().setVida(item.getValor() + personagem.getAtributo().getVida());
+        }
+
         personagem.getItens().remove(item);
 
         personagemRepository.save(personagem);

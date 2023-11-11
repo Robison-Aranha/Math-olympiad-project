@@ -49,7 +49,10 @@ public class ComprarItemService {
 
                 Item itemATrocar = personagem.getItens().stream().filter(p -> p.getTipo().toString().equals(item.getTipo().toString())).collect(Collectors.toList()).get(0);
 
-                personagem.getItens().remove(itemATrocar);
+                if (itemATrocar != null) {
+
+                    personagem.getItens().remove(itemATrocar);
+                }
 
             }
 

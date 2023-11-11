@@ -14,8 +14,6 @@ public class BatalhaResponse {
 
     private String nome;
 
-    private Double dano;
-
     private Double PorcentagemdanoDesviado;
 
     private Double critico;

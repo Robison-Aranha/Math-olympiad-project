@@ -50,6 +50,14 @@ public class Personagem {
     )
     private List<Item> itens = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "personagem_atributo",
+            joinColumns = @JoinColumn(name = "id_personagem"),
+            inverseJoinColumns = @JoinColumn(name = "id_atributo")
+    )
+    private List<Atributo> atributos = new ArrayList<>();
+
     private Integer vitorias;
 
     private Integer derrotas;

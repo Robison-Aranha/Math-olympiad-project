@@ -25,7 +25,6 @@ public class IncluirUsuarioService {
 
         Usuario usuario = toEntity(request);
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        usuario.setDinheiro(BigDecimal.valueOf(0));
         usuario.setAtivo(true);
 
         usuario.adicionarPermissao(Permissao.builder().nome("USUARIO").build());

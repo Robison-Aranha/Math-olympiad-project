@@ -2,6 +2,7 @@ package MathOlympiad.rpg.service.batalha;
 
 
 import MathOlympiad.rpg.controller.request.BatalhaRequest;
+import MathOlympiad.rpg.controller.response.BatalhaResponse;
 import MathOlympiad.rpg.controller.response.ListarLogsBatalhaResponse;
 import MathOlympiad.rpg.domain.Item;
 import MathOlympiad.rpg.domain.Personagem;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class BatalhaService {
@@ -37,26 +40,94 @@ public class BatalhaService {
 
         verificarPersonagemPertenceAUsuarioService.verificar(personagemUsuario);
 
-        Personagem personagemAsversario = buscarPersonagemService.buscar(request.getPersonagemAdversario());
+        Personagem personagemAdversario = buscarPersonagemService.buscar(request.getPersonagemAdversario());
 
-        List<Item> lista = new ArrayList<>();
+        ListarLogsBatalhaResponse listaBatalhaResponse = new ListarLogsBatalhaResponse();
 
-        if (!request.getItensAUsar().isEmpty()) {
+        ArrayList<BatalhaResponse> logs = new ArrayList<>();
 
-            for (Long itemId : request.getItensAUsar()) {
+        List<Personagem> listaAAtacar = new ArrayList<>();
+        List<Double> listaVida = new ArrayList<>();
 
-                Item item = buscarItemService.buscar(itemId);
+        if (personagemUsuario.getAtributo().getNivel() > personagemAdversario.getAtributo().getNivel()) {
+            listaAAtacar.add(personagemUsuario);
+            listaAAtacar.add(personagemAdversario);
+            listaVida.add(personagemUsuario.getAtributo().getVida());
+            listaVida.add(personagemAdversario.getAtributo().getVida());
+        } else if (personagemUsuario.getAtributo().getNivel() == personagemAdversario.getAtributo().getNivel()){
+            Random random = new Random();
 
-                verificarItemExisteNoIventarioService.verificar(item, personagemUsuario);
+            int numeroAleatorio = random.nextInt(1);
 
-                lista.add(item);
+            if (numeroAleatorio == 0) {
+                listaAAtacar.add(personagemUsuario);
+                listaAAtacar.add(personagemAdversario);
+                listaVida.add(personagemUsuario.getAtributo().getVida());
+                listaVida.add(personagemAdversario.getAtributo().getVida());
+            } else {
+                listaAAtacar.add(personagemAdversario);
+                listaAAtacar.add(personagemUsuario);
+                listaVida.add(personagemAdversario.getAtributo().getVida());
+                listaVida.add(personagemUsuario.getAtributo().getVida());
+            }
 
+        } else {
+            listaAAtacar.add(personagemAdversario);
+            listaAAtacar.add(personagemUsuario);
+            listaVida.add(personagemAdversario.getAtributo().getVida());
+            listaVida.add(personagemUsuario.getAtributo().getVida());
+        }
+
+        int count = 0;
+
+        while(1 == 1) {
+
+            Personagem personagemAAtacar = listaAAtacar.get(0 + count);
+
+            Personagem personagemAReceber = listaAAtacar.get(1 - count);
+
+            Double vidaPersonagemAReceber = listaVida.get(1 - count);
+
+            Double danoTotal = null;
+
+            Double danoArma = personagemAAtacar.getItens().stream().filter(item -> item.getTipo().name() == "ARMA").collect(Collectors.toList()).get(0).getValor();
+
+            danoTotal = (danoTotal + personagemAAtacar.getAtributo().getForca() + danoArma) * personagemAAtacar.getAtributo().getDestreza();
+
+            Double defesaArmadura = personagemAReceber.getItens().stream().filter(item -> item.getTipo().name() == "ARMADURA").collect(Collectors.toList()).get(0).getValor();
+
+            Double danoDesviado = danoTotal / 100 * defesaArmadura;
+
+            danoTotal -= danoDesviado;
+            Double vidaAtualizadaPersonagemAReceber = vidaPersonagemAReceber - danoTotal;
+            listaVida.set(1 - count, vidaAtualizadaPersonagemAReceber);
+
+            BatalhaResponse batalhaResponse = new BatalhaResponse();
+
+            batalhaResponse.setCritico(personagemAAtacar.getAtributo().getDestreza());
+            batalhaResponse.setDanoTotal(danoTotal);
+            batalhaResponse.setPorcentagemdanoDesviado(danoDesviado);
+            batalhaResponse.setNome(personagemAAtacar.getNome());
+
+            logs.add(batalhaResponse);
+
+            if (vidaAtualizadaPersonagemAReceber <= 0) {
+
+                listaBatalhaResponse.setVencedor(listaAAtacar.get(0 + count).getNome());
+                break;
+            }
+
+            if (count == 0) {
+                count = 1;
+            } else {
+                count = 0;
             }
 
         }
 
+        listaBatalhaResponse.setListaLogsBatalha(logs);
 
-
+        return listaBatalhaResponse;
 
     }
 }
