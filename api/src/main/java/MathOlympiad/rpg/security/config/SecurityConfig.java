@@ -40,8 +40,6 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 
-
-
         ;
 
         return http.build();

@@ -1,19 +1,18 @@
 package MathOlympiad.rpg.domain;
 
 
-import MathOlympiad.rpg.enumerator.Cla;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -28,7 +27,7 @@ public class Personagem {
 
     private String nome;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_classe")
     private Classe classe;
 
@@ -37,6 +36,10 @@ public class Personagem {
     @ManyToOne
     @JoinColumn(name = "id_quest")
     private Quest quest;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
 
     @JoinColumn(name = "termino_ultima_quest")
@@ -56,7 +59,8 @@ public class Personagem {
             joinColumns = @JoinColumn(name = "id_personagem"),
             inverseJoinColumns = @JoinColumn(name = "id_atributo")
     )
-    private List<Atributo> atributos = new ArrayList<>();
+    @MapKey(name = "atributo")
+    private Map<String, Atributo> atributos = new HashMap<>();
 
     private Integer vitorias;
 

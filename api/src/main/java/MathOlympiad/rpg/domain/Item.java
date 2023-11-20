@@ -1,5 +1,6 @@
 package MathOlympiad.rpg.domain;
 
+import MathOlympiad.rpg.enumerator.Cla;
 import MathOlympiad.rpg.enumerator.ItemTipos;
 import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
+
 
 import java.math.BigDecimal;
 
@@ -32,9 +34,12 @@ public class Item {
     private Double valor;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ITEM_TIPOS")
-    @Type(PostgreSQLEnumType.class)
+    @Column(columnDefinition = "item_tipos")
     private ItemTipos tipo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "cla")
+    private Cla cla;
 
     private String descricao;
 

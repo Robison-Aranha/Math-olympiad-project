@@ -32,7 +32,7 @@ public class VenderItemService {
 
     public void vender(Long id, PersonagemRequest request) {
 
-        Personagem personagem = buscarPersonagemService.buscar(request.getPeronsagemId());
+        Personagem personagem = buscarPersonagemService.buscar(request.getPersonagemId());
 
         Item item = buscarItemService.buscar(id);
 

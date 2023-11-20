@@ -2,6 +2,7 @@ package MathOlympiad.rpg.security.controller;
 
 import MathOlympiad.rpg.repository.UsuarioRepository;
 import MathOlympiad.rpg.security.controller.request.UsuarioRequest;
+import MathOlympiad.rpg.security.controller.response.UsuarioResponse;
 import MathOlympiad.rpg.security.service.BuscarUsuarioSecurityAuthService;
 import MathOlympiad.rpg.security.service.IncluirUsuarioService;
 import jakarta.validation.Valid;
@@ -26,8 +27,8 @@ public class LoginRegisterController {
     UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
-    public void login() {
-        buscarUsuarioService.buscar();
+    public UsuarioResponse login() {
+        return buscarUsuarioService.buscar();
     }
 
     @PostMapping("/register")

@@ -5,6 +5,7 @@ public enum ItemTipos {
     FORCA,
     NIVEL,
     DESTREZA,
+    AGILIDADE,
     ARMA,
     DEFESA,
     ARMADURA

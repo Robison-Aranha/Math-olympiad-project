@@ -29,12 +29,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Permissao> permissoes = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "usuario_personagem",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_personagem")
-    )
+    @OneToMany(mappedBy = "usuario")
     private List<Personagem> personagens = new ArrayList<>();
 
     public void adicionarPermissao(Permissao permissao) {

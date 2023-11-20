@@ -3,8 +3,8 @@ package MathOlympiad.rpg.controller;
 
 import MathOlympiad.rpg.controller.request.CriarPersonagemRequest;
 import MathOlympiad.rpg.controller.request.PersonagemRequest;
-import MathOlympiad.rpg.controller.response.ListarItensIventarioResponse;
-import MathOlympiad.rpg.controller.response.ListarPersonagensResponse;
+import MathOlympiad.rpg.controller.response.personagem.ListarItensIventarioResponse;
+import MathOlympiad.rpg.controller.response.personagem.ListarPersonagensResponse;
 import MathOlympiad.rpg.service.personagem.CriarPersonagemService;
 import MathOlympiad.rpg.service.personagem.DeletarPersonagemService;
 import MathOlympiad.rpg.service.personagem.ListarInventarioService;
@@ -12,7 +12,6 @@ import MathOlympiad.rpg.service.personagem.ListarPersonagensService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

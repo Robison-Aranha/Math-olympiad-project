@@ -2,9 +2,8 @@ package MathOlympiad.rpg.service.personagem;
 
 
 import MathOlympiad.rpg.controller.request.PersonagemRequest;
-import MathOlympiad.rpg.controller.response.ItemResponse;
-import MathOlympiad.rpg.controller.response.ListarItensIventarioResponse;
-import MathOlympiad.rpg.controller.response.ListarPersonagensResponse;
+import MathOlympiad.rpg.controller.response.item.ItemResponse;
+import MathOlympiad.rpg.controller.response.personagem.ListarItensIventarioResponse;
 import MathOlympiad.rpg.domain.Item;
 import MathOlympiad.rpg.domain.Personagem;
 import MathOlympiad.rpg.mapper.ItemMapper;
@@ -26,7 +25,7 @@ public class ListarInventarioService {
 
     public ListarItensIventarioResponse listar(PersonagemRequest request) {
 
-        Personagem personagem = buscarPersonagemService.buscar(request.getPeronsagemId());
+        Personagem personagem = buscarPersonagemService.buscar(request.getPersonagemId());
 
         verificarPersonagemPertenceAUsuarioService.verificar(personagem);
 

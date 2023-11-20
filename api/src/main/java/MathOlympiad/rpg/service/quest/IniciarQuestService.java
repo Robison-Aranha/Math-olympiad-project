@@ -1,6 +1,6 @@
 package MathOlympiad.rpg.service.quest;
 
-import MathOlympiad.rpg.controller.request.IniciarQuestRequest;
+import MathOlympiad.rpg.controller.request.PersonagemRequest;
 import MathOlympiad.rpg.domain.Personagem;
 import MathOlympiad.rpg.domain.Quest;
 import MathOlympiad.rpg.domain.Usuario;
@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 @Service
 public class IniciarQuestService {
@@ -32,7 +30,7 @@ public class IniciarQuestService {
     PersonagemRepository personagemRepository;
 
 
-    public void iniciar(Long id, IniciarQuestRequest request) {
+    public void iniciar(Long id, PersonagemRequest request) {
 
         Usuario usuario = usuarioAutenticadoService.get();
 

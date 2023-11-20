@@ -1,6 +1,6 @@
 package MathOlympiad.rpg.mapper;
 
-import MathOlympiad.rpg.controller.response.ListarPersonagensResponse;
+import MathOlympiad.rpg.controller.response.personagem.ListarPersonagensResponse;
 import MathOlympiad.rpg.domain.Personagem;
 
 public class ListarPersonagensMapper {

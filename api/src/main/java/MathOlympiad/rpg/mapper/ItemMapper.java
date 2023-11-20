@@ -1,6 +1,6 @@
 package MathOlympiad.rpg.mapper;
 
-import MathOlympiad.rpg.controller.response.ItemResponse;
+import MathOlympiad.rpg.controller.response.item.ItemResponse;
 import MathOlympiad.rpg.domain.Item;
 
 public class ItemMapper {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static MathOlympiad.rpg.security.mapper.UsuarioMapper.toEntity;
+import static MathOlympiad.rpg.security.mapper.UsuarioMapper.toResponse;
 
 @Service
 public class IncluirUsuarioService {

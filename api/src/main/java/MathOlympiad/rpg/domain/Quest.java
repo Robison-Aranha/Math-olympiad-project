@@ -36,6 +36,13 @@ public class Quest {
     )
     private List<Item> itens = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "quest_atributo",
+            joinColumns = @JoinColumn(name = "id_quest"),
+            inverseJoinColumns = @JoinColumn(name = "id_atributo")
+    )
+    private List<Atributo> atributosNecessarios = new ArrayList<>();
 
     @OneToMany(mappedBy = "quest")
     private List<Personagem> participantes = new ArrayList<>();

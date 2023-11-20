@@ -2,7 +2,7 @@ package MathOlympiad.rpg.controller;
 
 
 import MathOlympiad.rpg.controller.request.BatalhaRequest;
-import MathOlympiad.rpg.controller.response.ListarLogsBatalhaResponse;
+import MathOlympiad.rpg.controller.response.batalha.ListarLogsBatalhaResponse;
 import MathOlympiad.rpg.service.batalha.BatalhaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

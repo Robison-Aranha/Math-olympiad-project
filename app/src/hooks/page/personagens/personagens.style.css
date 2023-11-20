@@ -1,0 +1,10 @@
+
+
+.Personagens-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(circle, #583421, #633d25, #6e452a, #784f2e, #835832);
+}

@@ -1,6 +1,6 @@
 package MathOlympiad.rpg.service.personagem;
 
-import MathOlympiad.rpg.controller.response.ListarPersonagensResponse;
+import MathOlympiad.rpg.controller.response.personagem.ListarPersonagensResponse;
 import MathOlympiad.rpg.domain.Usuario;
 import MathOlympiad.rpg.mapper.ListarPersonagensMapper;
 import MathOlympiad.rpg.security.service.UsuarioAutenticadoService;
@@ -24,7 +24,6 @@ public class ListarPersonagensService {
         Usuario usuario = usuarioAutenticadoService.get();
 
         List<ListarPersonagensResponse> personagens = usuario.getPersonagens().stream().map(ListarPersonagensMapper::toResponse).collect(Collectors.toList());
-
 
         return new PageImpl<>(personagens);
     }

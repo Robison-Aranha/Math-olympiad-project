@@ -1,0 +1,71 @@
+
+
+.LoginRegistro-section {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #361a0f, #3e2014, #472718, #4f2d1d, #583421);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginRegistro-container {
+    width: 30%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 169px;
+    min-width: 359px;
+    background-color: var(--main-primary-color);
+    border-radius: 10px;
+}
+
+
+.LoginRegistro-content {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginRegistro-input {
+    width: 70%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    font-weight: bolder;
+    font-size: large;
+    color: var(--main-terciary-color);
+}
+
+.LoginRegistro-input > label {
+    margin-bottom: 2px;
+}
+
+.LoginRegistro-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+}
+
+.LoginRegistro-button > p {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--main-quintonary-color);
+}
+
+.LoginRegistro-button > p > a {
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+

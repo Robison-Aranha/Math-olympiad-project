@@ -8,6 +8,6 @@ import lombok.Data;
 public class PersonagemRequest {
 
     @NotBlank
-    private Long peronsagemId;
+    private Long personagemId;
 
 }

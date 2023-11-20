@@ -2,7 +2,7 @@ package MathOlympiad.rpg.enumerator;
 
 public enum Cla {
 
-    COLETADORES,
+    ESTUDIOSOS,
     HIGIENIZADORES
 
 }

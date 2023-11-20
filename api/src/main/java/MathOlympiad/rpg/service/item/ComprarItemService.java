@@ -35,34 +35,40 @@ public class ComprarItemService {
 
     public void comprar(Long id, PersonagemRequest request) {
 
-        Personagem personagem = buscarPersonagemService.buscar(request.getPeronsagemId());
+        Personagem personagem = buscarPersonagemService.buscar(request.getPersonagemId());
 
         verificarPersonagemPertenceAUsuarioService.verificar(personagem);
 
         Item item = buscarItemService.buscar(id);
 
-        Integer comparador = personagem.getDinheiro().compareTo(item.getPreco());
+        if (item.getCla() == null || personagem.getClasse().getCla().name().equals(item.getCla().name())) {
 
-        if (comparador == 0 || comparador == 1) {
+            Integer comparador = personagem.getDinheiro().compareTo(item.getPreco());
 
-            if (verificarSeItemEEquipavelService.verificar(item)) {
+            if (comparador == 0 || comparador == 1) {
 
-                Item itemATrocar = personagem.getItens().stream().filter(p -> p.getTipo().toString().equals(item.getTipo().toString())).collect(Collectors.toList()).get(0);
+                if (verificarSeItemEEquipavelService.verificar(item)) {
 
-                if (itemATrocar != null) {
+                    Item itemATrocar = personagem.getItens().stream().filter(i -> i.getTipo().name().equals(item.getTipo().name())).collect(Collectors.toList()).get(0);
 
-                    personagem.getItens().remove(itemATrocar);
+                    if (itemATrocar != null) {
+
+                        personagem.getItens().remove(itemATrocar);
+                    }
+
                 }
 
+                personagem.getItens().add(item);
+                personagem.setDinheiro(personagem.getDinheiro().subtract(item.getPreco()));
+
+                personagemRepository.save(personagem);
             }
 
-            personagem.getItens().add(item);
-            personagem.setDinheiro(personagem.getDinheiro().subtract(item.getPreco()));
-
-            personagemRepository.save(personagem);
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Dinheiro Insuficiente!");
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Dinheiro Insuficiente!");
+
+        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Classe de item incompativel!");
 
     }
 

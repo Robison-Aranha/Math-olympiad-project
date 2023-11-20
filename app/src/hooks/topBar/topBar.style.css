@@ -1,0 +1,87 @@
+
+.TopBar-section {
+    left: 0;
+    flex-direction: column;
+    height: 60%;
+    z-index: 3;
+    flex-wrap: initial;
+    position: fixed;
+    background-color: var(--main-primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translatex(-90%);
+    width: 20%;
+    box-shadow: 10px 1px 14px 2px rgb(0 0 0 / 50%);
+    transition: transform 0.5s ease;
+    padding: 10px;
+    border: 5px solid var(--main-secundary-color);
+    min-width: 300px;
+    min-height: 600px;
+    border-radius: 10px;
+}
+
+.TopBar-section:hover {
+    transform: translatex(0);
+}
+
+.TopBar-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+    color: var(--main-quintonary-color);
+    background-color: var(--main-secundary-color);
+}
+
+.TopBar-perfil > p {
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.TopBar-perfil > p > span {
+    font-weight: bold;
+}
+
+.TopBar-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22%;
+    height: 35%;
+    border: 3px solid var(--main-primary-color);
+    border-radius: 50%;
+}
+
+.TopBar-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 100%;
+    height: 60%;
+}
+
+.TopBar-links > a:first-child{
+    border-top: none;
+}
+
+.TopBar-links > a {
+    font-weight: bold;
+    font-size: 25px;
+    text-decoration: none;
+    color: var(--main-terciary-color);
+    transition: 0.4s;
+    border-top: 1px solid var(--main-quaternary-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.TopBar-links > a:hover {
+    font-size: 30px;
+    transition: 0.4s;
+}
