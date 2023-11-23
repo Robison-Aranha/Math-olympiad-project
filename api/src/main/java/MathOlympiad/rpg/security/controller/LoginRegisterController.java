@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping()
 public class LoginRegisterController {
@@ -32,7 +34,7 @@ public class LoginRegisterController {
     }
 
     @PostMapping("/register")
-    public void incluir(@Valid @RequestBody UsuarioRequest request) {
+    public void incluir(@Valid @RequestBody UsuarioRequest request) throws IOException {
 
         if (usuarioRepository.findByNome(request.getNome()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome ja esta sendo usado!!");

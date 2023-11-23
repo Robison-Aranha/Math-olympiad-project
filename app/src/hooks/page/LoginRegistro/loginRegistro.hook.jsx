@@ -64,7 +64,7 @@ export const LoginRegistro = () => {
 
       localStorage.setItem("user", JSON.stringify({ ...userInfo }));
 
-      navigate("/criar-personagem");
+      navigate("/criar-sala");
     } catch (response) {
       console.log(response)
       setGlobalModal([...globalModal, { message: "Login falhou!" }]);

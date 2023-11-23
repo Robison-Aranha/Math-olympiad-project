@@ -1,6 +1,6 @@
 import { userGlobalState } from "../../globalState/globalSate";
 import { Route, Routes } from "react-router-dom";
-import { CriarPersonagem, TopBar, Personagens } from "../hooks";
+import { TopBar, CriarSala, EntrarSala, Sala } from "../hooks";
 import { Navigate } from "react-router-dom";
 
 export const Protegido = () => {
@@ -10,8 +10,11 @@ export const Protegido = () => {
     <>
       <TopBar />
       <Routes>
-        <Route path="/criar-personagem" element={ <CriarPersonagem /> } />
-        <Route path="/personagens" element={ <Personagens /> } />
+        <Route path="/criar-sala" element={ <CriarSala /> } />
+        <Route path="/entrar-sala" element={ <EntrarSala /> } />
+        { userGlobal.sala ? 
+          <Route path="/sala" element={ <Sala /> } />
+        : null}
         <Route path="*" element={"Página não encontrada"} />
       </Routes>
     </>

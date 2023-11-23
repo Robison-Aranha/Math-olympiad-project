@@ -1,0 +1,89 @@
+
+
+.EntrarSala-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-image: radial-gradient(circle, #835832, #916436, #9e7039, #ab7d3d, #b78a40);
+}
+
+.EntrarSala-container-entrar {
+    width: 30%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.EntrarSala-container-procurar {
+    width: 30%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.EntrarSala-choose {
+    width: 50%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    top: 0px;
+}
+
+.EntrarSala-choose-section {
+    width: 30%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--main-quaternary-color);
+    background-color: var(--main-primary-color);
+    color: var(--main-quaternary-color);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.EntrarSala-entrar-input {
+    width: 80%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.EntrarSala-procurar-input {
+    width: 90%;
+    height: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.EntrarSala-procurar-input > p {
+    margin-right: 10px;
+    font-size: 22px;
+}
+
+.EntrarSala-procurar-content {
+    width: 90%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 10px;
+    background-color: var(--main-secundary-color);
+}
+

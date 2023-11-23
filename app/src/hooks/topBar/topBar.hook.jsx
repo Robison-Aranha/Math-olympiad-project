@@ -21,11 +21,10 @@ export const TopBar = () => {
 
             </div>
             <div className="TopBar-links">
-                <Link to="/salas">Salas</Link>
-                <Link to="/criar-sala">Criar Sala</Link>
+                <Link to="/entrar-sala">Entrar sala</Link>
+                <Link to="/criar-sala">Criar sala</Link>
             </div>
          
-            
 
         </div>
     )

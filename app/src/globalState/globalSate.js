@@ -6,6 +6,7 @@ export const [userGlobalState, UserProvider] = createGlobalState(
     : {
         id: "",
         nome: "",
+        sala: true,
         loged: false,
       }
 );

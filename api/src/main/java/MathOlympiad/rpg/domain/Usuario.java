@@ -22,6 +22,8 @@ public class Usuario {
     @Column(unique = true)
     private String nome;
 
+    private String imagem;
+
     private String senha;
 
     private boolean ativo;
@@ -29,8 +31,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Permissao> permissoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Personagem> personagens = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "id_sala")
+    private Sala salaAParticipar;
 
     public void adicionarPermissao(Permissao permissao) {
         this.permissoes.add(permissao);
