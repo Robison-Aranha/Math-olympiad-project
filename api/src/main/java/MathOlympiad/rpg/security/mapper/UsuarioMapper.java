@@ -16,6 +16,7 @@ public class UsuarioMapper {
         return UsuarioResponse.builder()
                 .id(entity.getId())
                 .nome(entity.getNome())
+                .imagemPerfil(entity.getImagem())
                 .build();
     }
 

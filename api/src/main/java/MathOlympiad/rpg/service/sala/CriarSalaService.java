@@ -64,6 +64,7 @@ public class CriarSalaService {
         sala.setNumeroRodadas(request.getNumeroRodadas());
         sala.setNumeroJogadores(request.getNumeroJogadores());
         sala.setPerguntas(perguntas);
+        sala.setTempoRodada(request.getTempoRodada());
 
 
         salaRepository.save(sala);

@@ -50,8 +50,14 @@
     justify-content: center;
     width: 22%;
     height: 35%;
+    max-width: 80px;
     border: 3px solid var(--main-primary-color);
     border-radius: 50%;
+    overflow: hidden;
+}
+
+.TopBar-foto > img {
+    width: 100%;
 }
 
 .TopBar-links {

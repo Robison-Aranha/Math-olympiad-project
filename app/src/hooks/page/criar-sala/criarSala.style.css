@@ -13,7 +13,7 @@
 
 .CriarSala-container {
     width: 30%;
-    height: 75%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -23,7 +23,7 @@
 
 .CriarSala-input {
     width: 80%;
-    height: 10%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     justify-content: center;

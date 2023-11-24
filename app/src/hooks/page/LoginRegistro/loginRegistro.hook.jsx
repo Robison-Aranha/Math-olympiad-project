@@ -57,6 +57,7 @@ export const LoginRegistro = () => {
         ...userGlobal,
         loged: true,
         nome: response.nome,
+        imagemPerfil: response.imagemPerfil,
         id: response.id,
       };
 
@@ -176,7 +177,7 @@ export const LoginRegistro = () => {
                 {state ? "Registrar" : "Logar"}{" "}
               </a>{" "}
             </p>
-            <button className="button" onClick={handleCommit}>
+            <button onClick={handleCommit}>
               {state ? "Logar" : "Registar"}
             </button>
           </div>

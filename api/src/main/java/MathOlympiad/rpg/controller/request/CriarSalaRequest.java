@@ -17,7 +17,7 @@ public class CriarSalaRequest {
     private String nome;
 
     @NotNull
-    private Integer tempoPerguntas;
+    private Integer tempoRodada;
 
     @NotNull
     private boolean privado;

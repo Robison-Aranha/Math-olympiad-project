@@ -24,7 +24,7 @@ public class Sala {
 
     private Integer numeroRodadas;
 
-    private Integer tempoPerguntas;
+    private Integer tempoRodada;
 
     private Integer numeroJogadores;
 
@@ -43,5 +43,8 @@ public class Sala {
     )
     private List<Pergunta> perguntas = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "sala")
+    private List<Placar> placares = new ArrayList<>();
 
 }

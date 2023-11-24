@@ -1,12 +1,10 @@
 package MathOlympiad.rpg.websocket.domain;
 
-
 import lombok.Data;
 
 @Data
-public class MensagemRequest {
+public class MensagemTempoRodada {
 
-    private String nome;
-
+    private Integer tempoRodada;
 
 }

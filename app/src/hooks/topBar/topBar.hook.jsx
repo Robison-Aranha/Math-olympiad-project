@@ -15,7 +15,7 @@ export const TopBar = () => {
             <div className="TopBar-perfil">
 
                 <div className="TopBar-foto">
-                    <img />
+                    <img src={ userGlobal.imagemPerfil } />
                 </div>
                 <p> <span> NOME: </span> { userGlobal.nome } </p>
 

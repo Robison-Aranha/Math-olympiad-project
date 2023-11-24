@@ -1,9 +1,14 @@
 import "./sala.style.css"
-
+import { useState } from "react"
 
 
 export const Sala = () => {
 
+
+    const [userData, setUserData] = useState({
+        mensage: "",
+        resposta: ""
+    })
 
 
     return (
@@ -24,7 +29,12 @@ export const Sala = () => {
 
                     </div>
                     <div className="Sala-chat">
-                    
+                        <div className="Sala-chat-content">
+
+                        </div>
+                        <div className="Sala-chat-input">
+                            <input name="mensagem" placeholder="comente aqui..." />
+                        </div>
                     </div>
                 </div>
             </div>

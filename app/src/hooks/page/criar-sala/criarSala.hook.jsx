@@ -11,6 +11,7 @@ export const CriarSala = () => {
         senha: "",
         numeroRodadas: 0,
         numeroJogadores: 0,
+        tempoRodada: 0,
         temas: [],
         privado: false
     })
@@ -69,6 +70,10 @@ export const CriarSala = () => {
                 <div className="CriarSala-input">
                     <label>Quantidade de rodadas:  <span>{userData.numeroRodadas}</span> </label>
                     <input name="numeroRodadas" type="range" min="0" max="15" value={userData.numeroRodadas} onChange={handlerValue} />
+                </div>
+                <div className="CriarSala-input">
+                    <label>tempo por rodadas:  <span>{userData.tempoRodada}s</span> </label>
+                    <input name="tempoRodada" type="range" min="10" max="30" value={userData.tempoRodada} onChange={handlerValue} />
                 </div>
                 <div className="CriarSala-input">
                     

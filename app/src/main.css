@@ -72,7 +72,7 @@ select:-webkit-autofill:focus {
 
 input {
     width: 100%;
-    height: 100%;
+    height: 20%;
     font-size: 15px;
     font-weight: bold;
     background-color: var(--main-secundary-color);
@@ -83,6 +83,12 @@ input {
     padding: 0.4vw;
     color: var(--main-terciary-color);
 }
+
+input::placeholder {
+  color: var(--main-terciary-color);
+}
+
+
 
 .label-checkbox {
     display: block;
@@ -271,6 +277,7 @@ button {
     -webkit-user-select: none;
     touch-action: manipulation;
     transition: 0.5s;
+    background-color: var(--main-terciary-color);
 }
 
 

@@ -7,11 +7,12 @@ import lombok.Data;
 @Data
 public class MensagemPerfil {
 
-    private TipoMensagemPerfil tipo;
+    private String tipo;
 
     private String nome;
 
     private String imagemPerfil;
 
+    private Integer pontos;
 
 }
