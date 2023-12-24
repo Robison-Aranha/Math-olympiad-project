@@ -1,4 +1,4 @@
-package MathOlympiad.rpg.websocket.service;
+package MathOlympiad.rpg.service;
 
 
 import MathOlympiad.rpg.domain.Usuario;
