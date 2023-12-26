@@ -11,6 +11,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -32,12 +35,12 @@ public class Pergunta {
     private RespostaPergunta resposta;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "tipo")
+    @Column(columnDefinition = "tipo_pergunta")
     @Type(PostgreSQLEnumType.class)
     private TipoPergunta tipo;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "tema")
+    @Column(columnDefinition = "tema_pergunta")
     @Type(PostgreSQLEnumType.class)
     private TemaPergunta tema;
 }

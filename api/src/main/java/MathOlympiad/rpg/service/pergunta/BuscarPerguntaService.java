@@ -2,6 +2,7 @@ package MathOlympiad.rpg.service.pergunta;
 
 
 import MathOlympiad.rpg.domain.Pergunta;
+import MathOlympiad.rpg.enumerator.TemaPergunta;
 import MathOlympiad.rpg.repository.PerguntaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,8 @@ public class BuscarPerguntaService {
     @Autowired
     PerguntaRepository perguntaRepository;
 
-    public List<Pergunta> buscarPorTema(List<String> temas, Integer quantidade) {
-        return perguntaRepository.findByTema(temas, quantidade).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao retornar Perguntas!"));
+    public List<Pergunta> buscarPorTema(List<TemaPergunta> temas ,Integer quantidade) {
+        return perguntaRepository.findPerguntaTemas(temas, quantidade).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao retornar Perguntas!"));
     }
 
 }

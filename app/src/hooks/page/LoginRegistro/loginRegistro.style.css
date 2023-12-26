@@ -12,7 +12,7 @@
 
 .LoginRegistro-container {
     width: 30%;
-    height: 40%;
+    height: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,6 +21,7 @@
     min-width: 359px;
     background-color: var(--main-primary-color);
     border-radius: 10px;
+    padding: 1%;
 }
 
 
@@ -35,7 +36,7 @@
 
 .LoginRegistro-input {
     width: 70%;
-    height: 20%;
+    height: 30%;
     display: flex;
     flex-direction: column;
     margin: 10px;

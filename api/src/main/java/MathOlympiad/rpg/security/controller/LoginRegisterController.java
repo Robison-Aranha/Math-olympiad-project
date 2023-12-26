@@ -37,7 +37,7 @@ public class LoginRegisterController {
     public void incluir(@Valid @RequestBody UsuarioRequest request) throws IOException {
 
         if (usuarioRepository.findByNome(request.getNome()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome ja esta sendo usado!!");
+            throw new ResponseStatusException(HttpStatus.FOUND, "Nome ja esta sendo usado!!");
         }
 
         incluirUsuarioService.incluir(request);

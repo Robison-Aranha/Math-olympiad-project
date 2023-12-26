@@ -1,59 +1,74 @@
-import { useState } from "react"
-import "./EntrarSala.style.css"
-
-
+import { useEffect, useState } from "react";
+import { useSala } from "../../../api/api";
+import { useVerifySession } from "../../../api/verifySession";
+import { EntrarSalaModal } from "./entrar-sala-modal/EntrarSalaModal.hook";
+import "./EntrarSala.style.css";
 
 export const EntrarSala = () => {
+  const [salaPesquisa, setSalaPesquisa] = useState([])
+  const [salaSelecionada, setSalaSelecionada] = useState()
+
+  const { buscarSala } = useSala();
+  const { verifySessionUser } = useVerifySession();
+
+  const [userData, setUserData] = useState({
+    nome: "",
+    senha: ""
+  });
+
+  useEffect(() => {
+
+    buscarSalaService()
+
+  }, [userData.nome])
 
 
-    const [state, setState] = useState(false)
+  const buscarSalaService = async () => {
 
+    try {
 
+      const response = await buscarSala(userData.nome)
 
-    return (
-        <div className="EntrarSala-section">
+      setSalaPesquisa([...response])
 
-            <div className="EntrarSala-choose">
+    } catch (error) {
+      verifySessionUser(error)
+    }
 
-                <div className="EntrarSala-choose-section grow-animation" onClick={() => setState(true)}>
-                    Entrar em uma sala
+  }
+
+  const handlerValue = (event) => {
+    const { value, name } = event.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  return (
+    <>
+      <EntrarSalaModal sala={salaSelecionada} onClose={() => setSalaSelecionada(null)}/>
+      <div className="EntrarSala-section">
+        <div className="EntrarSala-container efeito-vidro">
+          <div className="EntrarSala-input">
+            <p> Sala: </p>
+            <input name="nome" onChange={handlerValue}/>
+          </div>
+          <div className="EntrarSala-content">
+            { salaPesquisa.map((sala, key) => (
+
+              <div className="EntrarSala-sala-pesquisa" key={key} onClick={() => setSalaSelecionada(sala)}>
+
+                <div className="EntraSala-sala-nome">
+                  <p> {sala.nome} </p>
                 </div>
-                <div className="EntrarSala-choose-section grow-animation" onClick={() => setState(false)}>
-                    Procurar sala
-                </div>
+                <div className="EntrarSala-sala-jogadores">
 
-            </div>
-            { state ? (
-                <div className="EntrarSala-container-entrar efeito-vidro">
-                    
-                    <div className="EntrarSala-entrar-input">
-                        <label>Senha</label>
-                        <input />
-                    </div>
-
-                    <button>
-                        Entrar
-                    </button>
+                  <p> {sala.numeroAtualDeJogadores} / {sala.numeroTotalDeJogadores} </p>
 
                 </div>
-            ) : (
-
-                <div className="EntrarSala-container-procurar efeito-vidro">
-                    
-                    <div className="EntrarSala-procurar-input">
-                        <p> Sala: </p>
-                        <input  />
-                    </div>                        
-                    <div className="EntrarSala-procurar-content" >
-
-                    </div>
-
-                </div>
-
-            ) }
-
+              </div>
+            )) }
+          </div>
         </div>
-    )
-
-
-}
+      </div>
+    </>
+  );
+};

@@ -2,9 +2,15 @@ package MathOlympiad.rpg.websocket.domain;
 
 
 import MathOlympiad.rpg.websocket.enumerator.TipoMensagemPerfil;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MensagemPerfil {
 
     private String tipo;
@@ -14,5 +20,4 @@ public class MensagemPerfil {
     private String imagemPerfil;
 
     private Integer pontos;
-
 }

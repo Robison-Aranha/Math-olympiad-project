@@ -1,0 +1,56 @@
+
+
+.EntrarSalaModal-section {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    z-index: 100;
+}
+
+.EntrarSalaModal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 30%;
+    background-color: var(--main-primary-color);
+    border-radius: 10px;
+    border: 2px dashed var(--main-terciary-color);
+}
+
+.EntrarSalaModal-privada-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    height: 80%;
+}
+
+.EntrarSalaModal-publica-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    height: 80%;
+    font-size: 18px;
+}
+
+.EntrarSalaModal-publica-content > p > span{
+    text-decoration: underline;
+}
+
+.EntrarSalaModal-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 50%;
+}

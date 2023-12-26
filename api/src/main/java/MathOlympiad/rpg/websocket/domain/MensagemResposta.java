@@ -9,6 +9,5 @@ public class MensagemResposta {
     private String nome;
     private String resposta;
     private Integer contagem;
-    private Integer rodada;
 
 }

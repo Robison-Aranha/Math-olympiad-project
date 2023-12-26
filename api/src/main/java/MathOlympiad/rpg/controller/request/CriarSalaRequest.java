@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 public class CriarSalaRequest {
 
-    @NotBlank
+    
     private String senha;
 
-    @NotBlank
+    @NotNull
     private String nome;
 
     @NotNull
@@ -23,12 +23,12 @@ public class CriarSalaRequest {
     private boolean privado;
 
     @NotNull
-    List<String> temas;
-
-    @NotNull
     private Integer numeroRodadas;
 
     @NotNull
     private Integer numeroJogadores;
+
+    @NotNull
+    private List<String> temas;
 
 }

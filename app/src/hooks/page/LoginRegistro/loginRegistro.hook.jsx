@@ -1,11 +1,11 @@
 import "./loginRegistro.style.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoginRegister } from "../../../api/api";
 import { userGlobalState } from "../../../globalState/globalSate";
 import { useGlobalLoading } from "../../../globalState/globalSate";
 import { useGlobalModal } from "../../../globalState/globalSate";
-import { useNavigate } from "react-router-dom";
-import { Notification } from "../../hooks";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 export const LoginRegistro = () => {
   const [state, setState] = useState(true);
@@ -17,6 +17,7 @@ export const LoginRegistro = () => {
   const [globalModal, setGlobalModal] = useGlobalModal();
   
   const navigate = useNavigate();
+  const location = useLocation()
 
   const [userData, setUserData] = useState({
     nome: "",
@@ -28,6 +29,19 @@ export const LoginRegistro = () => {
     const { value, name } = event.target;
     setUserData({ ...userData, [name]: value });
   };
+
+
+  useEffect(() => {
+
+    if (location.state == "expired") {
+      setGlobalModal([...globalModal, { message: "Sua sessão expirou!!" }])
+    } else if (location.state == "logout") {
+      setGlobalModal([...globalModal, { message: "Sessão encerrada!!" } ])
+    }
+
+    localStorage.removeItem("user");
+    setUserGlobal({})
+  }, [])
 
   const handleCommit = () => {
 
@@ -85,16 +99,18 @@ export const LoginRegistro = () => {
         { message: "Conta criada com sucesso!" },
       ]);
     } catch (error) {
-      console.log(error)
+      
       if (error.response.data.fields) {
         const decodedErros = JSON.parse(error.response.data.fields);
 
         decodedErros.forEach((error) => globalModal.push({ message: error }));
       } else {
-        if (error.response.data.status == 409) {
+        if (error.response.data.status == 302) {
           globalModal.push({ message: error.response.data.message });
         }
       }
+
+      console.log(error)
 
       setGlobalModal([...globalModal]);
     }
@@ -131,7 +147,6 @@ export const LoginRegistro = () => {
 
   return (
     <>
-      <Notification />
       <div className="LoginRegistro-section">
         <div className="LoginRegistro-container">
           <div className="LoginRegistro-content">

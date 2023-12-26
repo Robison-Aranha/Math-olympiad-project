@@ -4,20 +4,23 @@ import { TopBar, CriarSala, EntrarSala, Sala } from "../hooks";
 import { Navigate } from "react-router-dom";
 
 export const Protegido = () => {
-  const [userGlobal,] = userGlobalState();
+  const [userGlobal] = userGlobalState();
 
   return userGlobal.loged ? (
-    <>
-      <TopBar />
+    userGlobal.sala ? (
       <Routes>
-        <Route path="/criar-sala" element={ <CriarSala /> } />
-        <Route path="/entrar-sala" element={ <EntrarSala /> } />
-        { userGlobal.sala ? 
-          <Route path="/sala" element={ <Sala /> } />
-        : null}
-        <Route path="*" element={"Página não encontrada"} />
+        <Route path="*" element={<Sala />} />
       </Routes>
-    </>
+    ) : (
+      <>
+        <TopBar />
+        <Routes>
+          <Route path="/criar-sala" element={<CriarSala />} />
+          <Route path="/entrar-sala" element={<EntrarSala />} />
+          <Route path="*" element={<CriarSala />} />
+        </Routes>
+      </>
+    )
   ) : (
     <Navigate to="/" />
   );

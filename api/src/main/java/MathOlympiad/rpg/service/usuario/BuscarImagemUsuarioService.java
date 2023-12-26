@@ -1,4 +1,4 @@
-package MathOlympiad.rpg.websocket.service;
+package MathOlympiad.rpg.service.usuario;
 
 import MathOlympiad.rpg.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

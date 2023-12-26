@@ -1,4 +1,4 @@
-package MathOlympiad.rpg.service;
+package MathOlympiad.rpg.service.usuario;
 
 
 import MathOlympiad.rpg.domain.Usuario;

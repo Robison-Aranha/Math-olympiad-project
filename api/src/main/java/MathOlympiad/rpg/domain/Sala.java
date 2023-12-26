@@ -22,6 +22,10 @@ public class Sala {
 
     private String nome;
 
+    private boolean jogoIniciou;
+
+    private boolean jogoTerminou;
+
     private Integer numeroRodadas;
 
     private Integer tempoRodada;
@@ -32,10 +36,17 @@ public class Sala {
 
     private String senha;
 
-    @OneToMany(mappedBy = "salaAParticipar")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "salaAParticipar")
     private List<Usuario> participantes = new ArrayList<>();
 
-    @ManyToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sala")
+    private List<RespostaPergunta> respostasPerguntas = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sala")
+    private List<RespostaAvancar> respostasAvancar = new ArrayList<>();
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "sala_pergunta",
             joinColumns = @JoinColumn(name = "id_sala"),
@@ -43,8 +54,16 @@ public class Sala {
     )
     private List<Pergunta> perguntas = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "sala_tema",
+            joinColumns = @JoinColumn(name = "id_sala"),
+            inverseJoinColumns = @JoinColumn(name = "id_tema")
+    )
+    private List<Tema> temas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sala")
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sala", cascade = CascadeType.REMOVE)
     private List<Placar> placares = new ArrayList<>();
 
 }
