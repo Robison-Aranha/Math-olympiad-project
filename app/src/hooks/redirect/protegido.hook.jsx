@@ -17,7 +17,7 @@ export const Protegido = () => {
         <Routes>
           <Route path="/criar-sala" element={<CriarSala />} />
           <Route path="/entrar-sala" element={<EntrarSala />} />
-          <Route path="*" element={<CriarSala />} />
+          <Route path="*" element={<Navigate to="/criar-sala" />} />
         </Routes>
       </>
     )

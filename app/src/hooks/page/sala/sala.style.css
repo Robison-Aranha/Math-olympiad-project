@@ -1,71 +1,139 @@
-
-
 .Sala-section {
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(circle, #b78a40, #996a34, #784c29, #57321d, #361a0f);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--main-primary-color);
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle,
+    #b78a40,
+    #996a34,
+    #784c29,
+    #57321d,
+    #361a0f
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--main-primary-color);
 }
 
 .Sala-section > p {
-    color: var(--main-primary-color);
-    text-decoration: dotted;
+  color: var(--main-primary-color);
+  text-decoration: dotted;
 }
 
 .Sala-container {
-
-    width: 90%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    min-width: 900px;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  min-width: 900px;
 }
 
 .Sala-header {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .Sala-header > button {
-    left: 40px;
+  left: 40px;
 }
 
 .Sala-header-tempo-rodada {
-    width: 10%;
-    height: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-color: var(--main-quintonary-color);
-    border: 2px solid var(--main-terciary-color);
-    border-radius: 10px;
+  width: 10%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: var(--main-quintonary-color);
+  border: 2px solid var(--main-terciary-color);
+  border-radius: 10px;
 }
 
 .Sala-header-numero-jogadores {
-    width: 10%;
-    height: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    right: 40px;
-    background-color: var(--main-quintonary-color);
-    border: 2px solid var(--main-terciary-color);
-    border-radius: 10px;
+  width: 10%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  right: 40px;
+  background-color: var(--main-quintonary-color);
+  border: 2px solid var(--main-terciary-color);
+  border-radius: 10px;
 }
 
 .Sala-content {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Sala-perfils {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.Sala-perfils-perfil {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 2px solid var(--main-secundary-color);
+  border-left: none;
+  border-right: none;
+}
+
+.Sala-perfils-foto {
+  width: 22%;
+  height: 35%;
+  max-width: 60px;
+  min-width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.Sala-perfils-foto > img {
+  width: 100%;
+  height: 100%;
+}
+
+.Sala-perfils-content {
+  width: 60%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.Sala-state {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-left: 5px solid var(--main-secundary-color);
+  border-right: 5px solid var(--main-secundary-color);
+}
+
+.Sala-jogo {
     width: 100%;
     height: 90%;
     display: flex;
@@ -73,191 +141,244 @@
     justify-content: center;
 }
 
-.Sala-perfils {
-    width: 20%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow-y: auto;
-}
-
-.Sala-perfils-perfil {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    border: 2px solid var(--main-secundary-color);
-    border-left: none;
-    border-right: none;
-}
-
-.Sala-perfils-foto {
-    width: 22%;
-    height: 35%;
-    max-width: 60px;
-    min-width: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.Sala-perfils-foto > img {
-    width: 100%;
-    height: 100%;
-}
-
-.Sala-perfils-content {
-    width: 60%;
-    height: 100%;
-    flex-direction: column;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    font-size: 12px;
-}
-
-
-.Sala-state {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-left: 5px solid var(--main-secundary-color);
-    border-right: 5px solid var(--main-secundary-color);
-}
-
 .Sala-pergunta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 100%;
 }
 
 .Sala-pergunta-questao {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60%;
 }
 
 .Sala-pergunta-questao > img {
-    width: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 
 .Sala-pergunta-respostas {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 40%;
 }
 
 .Sala-pergunta-resposta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 20%;
+  border: 1px solid var(--main-terciary-color);
+  cursor: pointer;
+  margin-right: 4px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+.Sala-pergunta-resposta:hover {
+  border: 2px solid var(--main-quaternary-color);
+}
+
+.Sala-resposta-pergunta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.Sala-resposta-pergunta-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 30%;
+}
+
+.Sala-resposta-pergunta-content > span {
+  font-size: 20px;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--main-quintonary-color);
+  font-size: 3em;
+  color: var(--main-quaternary-color);
+}
+
+.Sala-progress-bar {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 20%;
-    border: 1px solid var(--main-terciary-color);
+    height: 10%;
+}
+
+.progress-bar {
+  --progress: 0;
+  height: 10%;
+  width: 80%;
+  padding: 5px;
+  background-color: var(--main-secundary-color);
+  display: flex;
+  border-radius: 10px;
+  border: 2px solid var(--main-terciary-color);
+}
+
+.progress-bar::before {
+  content: "";
+  width: calc(var(--progress) * 1%);
+  border-radius: 10px;
+  background-color: var(--main-quintonary-color);
+}
+
+.Sala-placar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.Sala-placar-colocacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+}
+
+.Sala-placar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 30%;
+  height: 90%;
+  border: 3px solid var(--main-quaternary-color);
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.Sala-placar-content-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--main-terciary-color);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.Sala-placar-content-foto > img {
+  width: 100%;
+  height: 100%;
 }
 
 .Sala-chat {
-    width: 30%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .Sala-chat-input {
-    width: 95%;
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 95%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Sala-chat-input > button {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .Sala-chat-input > input {
-    background-color: transparent;
-    border: 2px solid var(--main-terciary-color);
+  background-color: transparent;
+  border: 2px solid var(--main-terciary-color);
 }
 
 .Sala-chat-content {
-    width: 95%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    overflow-y: auto;
+  width: 95%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
 .Sala-chat-content {
-    overflow-y: auto;
-    flex-flow: column nowrap;
+  overflow-y: auto;
+  flex-flow: column nowrap;
 }
 .Sala-chat-content > :first-child {
-    margin-top: auto !important;
+  margin-top: auto !important;
 }
 
 .Sala-chat-mensagem {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 3px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 3px;
 }
 
 .Sala-inicio {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
-
 
 .Sala-inicio-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 50%;
-    margin-bottom: 20px;
-    transition: 2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  margin-bottom: 20px;
 }
 
-
 .Sala-inicio-content > p {
-    color: var(--main-quaternary-color);
-    font-size: 25px;
+  color: var(--main-quaternary-color);
+  font-size: 25px;
 }
 
 .Sala-inicio-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
 }
 
 .Sala-inicio-text > p {
-    font-size: 20px;
-    color: var(--main-quaternary-color);
+  font-size: 20px;
+  color: var(--main-quaternary-color);
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

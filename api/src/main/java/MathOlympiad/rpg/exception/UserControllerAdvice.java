@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -49,5 +50,15 @@ public class UserControllerAdvice {
 
     }
 
+    @ResponseBody
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ExceptionMessageHandler> responseStatus(ResponseStatusException responseStatusException) {
+
+        ExceptionMessageHandler error = new ExceptionMessageHandler(
+                responseStatusException.getStatusCode().value(), responseStatusException.getReason(), ""
+        );
+
+        return new ResponseEntity<>(error, responseStatusException.getStatusCode());
+    }
 
 }

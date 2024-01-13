@@ -5,6 +5,7 @@ import MathOlympiad.rpg.security.controller.request.UsuarioRequest;
 import MathOlympiad.rpg.security.controller.response.UsuarioResponse;
 import MathOlympiad.rpg.security.service.BuscarUsuarioSecurityAuthService;
 import MathOlympiad.rpg.security.service.IncluirUsuarioService;
+import MathOlympiad.rpg.service.VerificarParametrosService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,24 +22,18 @@ import java.io.IOException;
 public class LoginRegisterController {
 
     @Autowired
-    private BuscarUsuarioSecurityAuthService buscarUsuarioService;
+    BuscarUsuarioSecurityAuthService buscarUsuarioService;
 
     @Autowired
-    private IncluirUsuarioService incluirUsuarioService;
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    IncluirUsuarioService incluirUsuarioService;
 
     @PostMapping("/login")
-    public UsuarioResponse login() {
-        return buscarUsuarioService.buscar();
+    public UsuarioResponse login(@RequestBody UsuarioRequest request) {
+        return buscarUsuarioService.buscar(request);
     }
 
     @PostMapping("/register")
     public void incluir(@Valid @RequestBody UsuarioRequest request) throws IOException {
-
-        if (usuarioRepository.findByNome(request.getNome()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.FOUND, "Nome ja esta sendo usado!!");
-        }
 
         incluirUsuarioService.incluir(request);
     }

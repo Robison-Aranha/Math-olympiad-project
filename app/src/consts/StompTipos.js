@@ -1,0 +1,1 @@
+export const STOMP_TIPOS = ["Private", "Public"]

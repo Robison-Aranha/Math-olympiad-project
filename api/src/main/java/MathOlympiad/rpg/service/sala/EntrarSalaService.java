@@ -8,6 +8,7 @@ import MathOlympiad.rpg.domain.Placar;
 import MathOlympiad.rpg.domain.Sala;
 import MathOlympiad.rpg.domain.Usuario;
 import MathOlympiad.rpg.repository.PlacarRepository;
+import MathOlympiad.rpg.repository.SalaRepository;
 import MathOlympiad.rpg.repository.UsuarioRepository;
 import MathOlympiad.rpg.security.service.UsuarioAutenticadoService;
 import MathOlympiad.rpg.service.VerificarParametrosService;
@@ -31,10 +32,7 @@ public class EntrarSalaService {
     VerificarParametrosService verificarParametrosService;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
-
-    @Autowired
-    PlacarRepository placarRepository;
+    SalaRepository salaRepository;
 
     public SalaResponse entrarPrivada(EntrarSalaPrivadaRequest request) {
 
@@ -54,15 +52,15 @@ public class EntrarSalaService {
         placar.setSala(sala);
         placar.setPontos(0);
 
-        placarRepository.save(placar);
+        sala.adicionarPlacar(placar);
 
-        usuario.setSalaAParticipar(sala);
+        sala.adicionarParticipante(usuario);
 
-        usuarioRepository.save(usuario);
+        salaRepository.save(sala);
 
         SalaResponse salaResponse = new SalaResponse();
         salaResponse.setNumeroJogadores(sala.getNumeroJogadores());
-        salaResponse.setSenha(sala.getSenha());
+        salaResponse.setWebSocketKey(sala.getWebSocketKey());
 
         return salaResponse;
     }
@@ -73,20 +71,24 @@ public class EntrarSalaService {
 
         Sala sala = buscarSalaService.porId(request.getSalaId());
 
+        if (sala.getNumeroJogadores() == sala.getParticipantes().size()) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Sala ja esta lotada!");
+        }
+
         Placar placar = new Placar();
         placar.setNome(usuario.getNome());
         placar.setSala(sala);
         placar.setPontos(0);
 
-        placarRepository.save(placar);
-        
-        usuario.setSalaAParticipar(sala);
+        sala.adicionarPlacar(placar);
 
-        usuarioRepository.save(usuario);
+        sala.adicionarParticipante(usuario);
+
+        salaRepository.save(sala);
 
         SalaResponse salaResponse = new SalaResponse();
         salaResponse.setNumeroJogadores(sala.getNumeroJogadores());
-        salaResponse.setSenha(sala.getSenha());
+        salaResponse.setWebSocketKey(sala.getWebSocketKey());
 
         return salaResponse;
     }

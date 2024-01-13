@@ -18,4 +18,5 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
     @Query(value = "select * from sala where (nome like :nome%)", nativeQuery = true)
     List<Sala> findSalas(String nome);
 
+    Optional<Sala> findByWebSocketKey(String webSocketKey);
 }

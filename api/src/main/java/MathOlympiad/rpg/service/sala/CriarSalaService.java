@@ -15,6 +15,7 @@ import MathOlympiad.rpg.service.pergunta.BuscarPerguntaService;
 import MathOlympiad.rpg.service.tema.BuscarTemaService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,11 +41,8 @@ public class CriarSalaService {
     @Autowired
     SalaRepository salaRepository;
 
-    @Autowired
-    UsuarioRepository usuarioRepository;
-
-    @Autowired
-    PlacarRepository placarRepository;
+    @Value("${application.security.password.secret-key}")
+    private String SECRET_KEY;
 
     private final Integer NUMERO_MAXIMO_DE_RODADAS = 15;
 
@@ -60,6 +58,7 @@ public class CriarSalaService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Numero de jogadores invalido!");
         }
 
+
         Usuario usuario = usuarioAutenticadoService.get();
 
         verificarParametrosService.verificar(request.getNome());
@@ -73,41 +72,42 @@ public class CriarSalaService {
 
         Sala sala = new Sala();
 
-        String senha;
+        String senha = null;
+        String webSocketKey;
 
         if (!request.getSenha().isEmpty()) {
             senha = DigestUtils.md5Hex(request.getSenha());
+            webSocketKey = DigestUtils.md5Hex(request.getSenha() + System.currentTimeMillis() + SECRET_KEY);
         } else {
-            senha = DigestUtils.md5Hex(request.getNome());
+            webSocketKey = DigestUtils.md5Hex(request.getNome() + System.currentTimeMillis() + SECRET_KEY);
         }
+
 
         List<Tema> temasSala = buscarTemaService.porTema(request.getTemas().stream().map(t -> TemaPergunta.valueOf(t)).collect(Collectors.toList()));
 
         sala.setNome(request.getNome());
         sala.setSenha(senha);
+        sala.setWebSocketKey(webSocketKey);
         sala.setNumeroRodadas(request.getNumeroRodadas());
         sala.setNumeroJogadores(request.getNumeroJogadores());
         sala.setPerguntas(perguntas);
         sala.setPrivado(request.isPrivado());
         sala.setTempoRodada(request.getTempoRodada());
         sala.setTemas(temasSala);
-
-        salaRepository.save(sala);
-
-        usuario.setSalaAParticipar(sala);
-
-        usuarioRepository.save(usuario);
+        sala.adicionarParticipante(usuario);
 
         Placar placar = new Placar();
         placar.setSala(sala);
         placar.setPontos(0);
         placar.setNome(usuario.getNome());
 
-        placarRepository.save(placar);
+        sala.adicionarPlacar(placar);
+
+        salaRepository.save(sala);
 
         SalaResponse salaResponse = new SalaResponse();
         salaResponse.setNumeroJogadores(sala.getNumeroJogadores());
-        salaResponse.setSenha(senha);
+        salaResponse.setWebSocketKey(webSocketKey);
 
 
         return salaResponse;

@@ -11,6 +11,7 @@ public class UsuarioResponse {
 
     private Long id;
     private String nome;
+    private String token;
     private String imagemPerfil;
 
 }

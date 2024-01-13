@@ -3,7 +3,6 @@ import { BaseUrl } from "../BaseUrl";
 
 const http = axios.create({
   baseURL: BaseUrl,
-  withCredentials: true,
 });
 
 export const useLoginRegister = () => {
@@ -19,12 +18,12 @@ export const useLoginRegister = () => {
 
   const login = async (nome, senha) => {
 
-    const authorization = btoa(nome + ":" + senha);
-
     const response = await http.post(
     "/login",
-    {},
-    { headers: { Authorization: "Basic " + authorization } }
+    {
+      nome: nome,
+      senha: senha
+    },
     );
     return response.data;
   };

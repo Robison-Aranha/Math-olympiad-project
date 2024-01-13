@@ -1,1 +1,1 @@
-export const SUBSCRIBES = ["principal", "notification", "respostaAvancar", "contagemIniciar", "chat", "perfil", "pergunta", "tempoPergunta"];
+export const SUBSCRIBES = ["principal", "respostaAvancar", "respostaPergunta", "contagemIniciar", "chat", "perfil", "pergunta", "tempoPergunta", "tempoRespostaPergunta", "fimDeJogo", "jogoIniciou"];

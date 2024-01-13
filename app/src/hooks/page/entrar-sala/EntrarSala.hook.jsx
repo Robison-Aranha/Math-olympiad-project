@@ -5,37 +5,30 @@ import { EntrarSalaModal } from "./entrar-sala-modal/EntrarSalaModal.hook";
 import "./EntrarSala.style.css";
 
 export const EntrarSala = () => {
-  const [salaPesquisa, setSalaPesquisa] = useState([])
-  const [salaSelecionada, setSalaSelecionada] = useState()
+  const [salaPesquisa, setSalaPesquisa] = useState([]);
+  const [salaSelecionada, setSalaSelecionada] = useState();
 
   const { buscarSala } = useSala();
   const { verifySessionUser } = useVerifySession();
 
   const [userData, setUserData] = useState({
     nome: "",
-    senha: ""
+    senha: "",
   });
 
   useEffect(() => {
-
-    buscarSalaService()
-
-  }, [userData.nome])
-
+    buscarSalaService();
+  }, [userData.nome]);
 
   const buscarSalaService = async () => {
-
     try {
+      const response = await buscarSala(userData.nome);
 
-      const response = await buscarSala(userData.nome)
-
-      setSalaPesquisa([...response])
-
+      setSalaPesquisa([...response]);
     } catch (error) {
-      verifySessionUser(error)
+      verifySessionUser(error);
     }
-
-  }
+  };
 
   const handlerValue = (event) => {
     const { value, name } = event.target;
@@ -44,28 +37,35 @@ export const EntrarSala = () => {
 
   return (
     <>
-      <EntrarSalaModal sala={salaSelecionada} onClose={() => setSalaSelecionada(null)}/>
+      <EntrarSalaModal
+        sala={salaSelecionada}
+        onClose={() => setSalaSelecionada(null)}
+      />
       <div className="EntrarSala-section">
         <div className="EntrarSala-container efeito-vidro">
           <div className="EntrarSala-input">
             <p> Sala: </p>
-            <input name="nome" onChange={handlerValue}/>
+            <input name="nome" onChange={handlerValue} />
           </div>
           <div className="EntrarSala-content">
-            { salaPesquisa.map((sala, key) => (
-
-              <div className="EntrarSala-sala-pesquisa" key={key} onClick={() => setSalaSelecionada(sala)}>
-
+            {salaPesquisa.map((sala, key) => (
+              <div
+                className="EntrarSala-sala-pesquisa"
+                key={key}
+                onClick={() => setSalaSelecionada(sala)}
+              >
                 <div className="EntraSala-sala-nome">
                   <p> {sala.nome} </p>
                 </div>
                 <div className="EntrarSala-sala-jogadores">
-
-                  <p> {sala.numeroAtualDeJogadores} / {sala.numeroTotalDeJogadores} </p>
-
+                  <p>
+                    {" "}
+                    {sala.numeroAtualDeJogadores} /{" "}
+                    {sala.numeroTotalDeJogadores}{" "}
+                  </p>
                 </div>
               </div>
-            )) }
+            ))}
           </div>
         </div>
       </div>

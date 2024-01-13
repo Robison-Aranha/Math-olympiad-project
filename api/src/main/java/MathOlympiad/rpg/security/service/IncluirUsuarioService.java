@@ -3,11 +3,17 @@ package MathOlympiad.rpg.security.service;
 import MathOlympiad.rpg.domain.Usuario;
 import MathOlympiad.rpg.repository.UsuarioRepository;
 import MathOlympiad.rpg.security.controller.request.UsuarioRequest;
+import MathOlympiad.rpg.security.controller.response.UsuarioResponse;
 import MathOlympiad.rpg.security.domain.Permissao;
+import MathOlympiad.rpg.security.domain.Token;
+import MathOlympiad.rpg.security.jwt.JwtService;
 import MathOlympiad.rpg.service.ConverterImagemParaBase64;
+import MathOlympiad.rpg.service.VerificarParametrosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -20,18 +26,26 @@ import static MathOlympiad.rpg.security.mapper.UsuarioMapper.toResponse;
 public class IncluirUsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    VerificarParametrosService verificarParametrosService;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     ConverterImagemParaBase64 converterImagemParaBase64;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
-
-    private Integer NUMERO_DE_FOTOS = 6;
+    private final Integer NUMERO_DE_FOTOS = 6;
 
     public void incluir(UsuarioRequest request) throws IOException {
+
+        verificarParametrosService.verificar(request.getNome());
+
+        if (usuarioRepository.findByNome(request.getNome()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.FOUND, "Nome de usuario ja existe!");
+        }
 
         Usuario usuario = toEntity(request);
 

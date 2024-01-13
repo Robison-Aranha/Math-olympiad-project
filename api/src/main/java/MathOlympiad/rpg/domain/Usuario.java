@@ -1,6 +1,7 @@
 package MathOlympiad.rpg.domain;
 
 import MathOlympiad.rpg.security.domain.Permissao;
+import MathOlympiad.rpg.security.domain.Token;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,10 @@ public class Usuario {
     private String senha;
 
     private boolean ativo;
+
+    @OneToOne(mappedBy = "usuarioToken")
+    private Token token;
+
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Permissao> permissoes = new ArrayList<>();

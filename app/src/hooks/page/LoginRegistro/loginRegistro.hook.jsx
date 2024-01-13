@@ -6,7 +6,6 @@ import { useGlobalLoading } from "../../../globalState/globalSate";
 import { useGlobalModal } from "../../../globalState/globalSate";
 import { useNavigate, useLocation } from "react-router-dom";
 
-
 export const LoginRegistro = () => {
   const [state, setState] = useState(true);
 
@@ -15,9 +14,9 @@ export const LoginRegistro = () => {
   const [userGlobal, setUserGlobal] = userGlobalState();
   const [, setLoading] = useGlobalLoading();
   const [globalModal, setGlobalModal] = useGlobalModal();
-  
+
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const [userData, setUserData] = useState({
     nome: "",
@@ -30,23 +29,20 @@ export const LoginRegistro = () => {
     setUserData({ ...userData, [name]: value });
   };
 
-
   useEffect(() => {
-
     if (location.state == "expired") {
-      setGlobalModal([...globalModal, { message: "Sua sessão expirou!!" }])
+      setGlobalModal([...globalModal, { message: "Sua sessão expirou!!" }]);
     } else if (location.state == "logout") {
-      setGlobalModal([...globalModal, { message: "Sessão encerrada!!" } ])
+      setGlobalModal([...globalModal, { message: "Sessão encerrada!!" }]);
     }
 
     localStorage.removeItem("user");
-    setUserGlobal({})
-  }, [])
+    setUserGlobal({});
+  }, []);
 
   const handleCommit = () => {
-
     const value = verifyCredentials();
-    
+
     if (value) {
       if (value == 2) {
         setGlobalModal([...globalModal, { message: "Senhas não são iguais!" }]);
@@ -72,6 +68,7 @@ export const LoginRegistro = () => {
         loged: true,
         nome: response.nome,
         imagemPerfil: response.imagemPerfil,
+        token: response.token,
         id: response.id,
       };
 
@@ -81,14 +78,13 @@ export const LoginRegistro = () => {
 
       navigate("/criar-sala");
     } catch (response) {
-      console.log(response)
+      console.log(response);
       setGlobalModal([...globalModal, { message: "Login falhou!" }]);
     }
     setLoading(false);
   };
 
   const registerService = async () => {
-
     setLoading(true);
     try {
       await registro(userData.nome, userData.senha);
@@ -99,7 +95,6 @@ export const LoginRegistro = () => {
         { message: "Conta criada com sucesso!" },
       ]);
     } catch (error) {
-      
       if (error.response.data.fields) {
         const decodedErros = JSON.parse(error.response.data.fields);
 
@@ -110,7 +105,7 @@ export const LoginRegistro = () => {
         }
       }
 
-      console.log(error)
+      console.log(error);
 
       setGlobalModal([...globalModal]);
     }
@@ -119,9 +114,7 @@ export const LoginRegistro = () => {
   };
 
   const verifyCredentials = () => {
-
     if (!state) {
-
       if (userData.nome == "" || userData.nome == null) {
         return false;
       } else if (
@@ -192,7 +185,7 @@ export const LoginRegistro = () => {
                 {state ? "Registrar" : "Logar"}{" "}
               </a>{" "}
             </p>
-            <button onClick={handleCommit}>
+            <button className="button-1" onClick={handleCommit}>
               {state ? "Logar" : "Registar"}
             </button>
           </div>

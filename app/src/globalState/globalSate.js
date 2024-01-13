@@ -8,6 +8,7 @@ export const [userGlobalState, UserProvider] = createGlobalState(
         id: "",
         nome: "",
         sala: null,
+        token: null,
         loged: false,
       }
 );

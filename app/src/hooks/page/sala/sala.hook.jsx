@@ -1,25 +1,28 @@
-import './sala.style.css';
-import { over } from 'stompjs';
-import SockJS from 'sockjs-client';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { DOMAIN_SOCK } from '../../../consts/sock';
+import "./sala.style.css";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
+import md5Hex from "md5-hex";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   userGlobalState,
   useGlobalLoading,
   useGlobalModal,
-} from '../../../globalState/globalSate';
-import { useVerifySession } from '../../../api/verifySession';
-import { RESPOSTAS } from '../../../consts/respotas';
-import { SUBSCRIBES } from '../../../consts/subscribes';
-import { useSala } from '../../../api/api';
+} from "../../../globalState/globalSate";
+import {
+  DOMAIN_SOCK,
+  SUBSCRIBES,
+  RESPOSTAS,
+  STOMP_TIPOS,
+} from "../../../consts/consts";
 
 export const Sala = () => {
   const [loading, setLoading] = useGlobalLoading();
-  const [, setGlobalModal] = useGlobalModal();
 
-  const [useStomp, setUseStomp] = useState();
-  const [useSock, setUseSock] = useState();
+  const [useStompPublic, setUseStompPublic] = useState();
+  const [useStompPrivate, setUseStompPrivate] = useState();
+  const [useSockPublic, setUseSockPublic] = useState();
+  const [useSockPrivate, setUseSockPrivate] = useState();
 
   const [useIsSocket, setUseIsSocket] = useState();
   const [subscribesToConnect, setSubscribesToConnect] = useState([
@@ -29,25 +32,24 @@ export const Sala = () => {
 
   const [userGlobal, setUserGlobal] = userGlobalState();
 
-  const [userIsHost, setUserIshost] = useState();
-  const [gameIsEnd, setGameIsEnd] = useState();
+  const [fimDeJogo, setFimDeJogo] = useState();
+  const [jogoIniciou, setJogoIniciou] = useState();
 
   const [chat, setChat] = useState([]);
   const [perfils, setPerfils] = useState([]);
+  const [perfilsUpdate, setPerfilsUpdate] = useState();
   const [pergunta, setPergunta] = useState(false);
-  const [tempoPergunta, setTempoPergunta] = useState(0);
   const [votacaoPergunta, setVotacaoPergunta] = useState([]);
+  const [contagemIniciar, setContagemIniciar] = useState(false);
   const [respostaAvancar, setRespostaAvancar] = useState(0);
-  const [contagemIniciar, setContagemIniciar] = useState();
+  const [respostaPergunta, setRespostaPergunta] = useState("");
+  const [respostaUsuario, setRespostaUsuario] = useState("");
 
   const [jaVotouAvancar, setJaVotouAvancar] = useState(false);
 
-  const { verificarUsuarioHost } = useSala();
-  const { verifySessionUser } = useVerifySession();
-
   const [userData, setUserData] = useState({
-    mensagem: '',
-    resposta: '',
+    mensagem: "",
+    resposta: "",
   });
 
   const navigate = useNavigate();
@@ -59,27 +61,37 @@ export const Sala = () => {
   };
 
   useEffect(() => {
-    setUseSock(new SockJS(DOMAIN_SOCK));
+    setUseSockPublic(new SockJS(DOMAIN_SOCK));
+    setUseSockPrivate(new SockJS(DOMAIN_SOCK));
+
     setUseIsSocket(1);
   }, []);
 
   useEffect(() => {
     if (useIsSocket == 1) {
-      setUseStomp(over(useSock));
+      setUseStompPublic(over(useSockPublic));
+      setUseStompPrivate(over(useSockPrivate));
 
       setUseIsSocket(2);
     } else if (useIsSocket == 2) {
-      useStomp.debug = null;
-      useStomp.connect(
+      useStompPublic.debug = null;
+      useStompPublic.connect(
         {},
-        () => setUseIsSocket(3),
+        () => setUseIsSocket((r) => r + 1),
+        () => disconnetSala(true)
+      );
+
+      useStompPrivate.debug = null;
+      useStompPrivate.connect(
+        {},
+        () => setUseIsSocket((r) => r + 1),
         () => disconnetSala(true)
       );
     }
   }, [useIsSocket]);
 
   useEffect(() => {
-    if (useIsSocket == 3 && subscribesToConnect.length > 0) {
+    if (useIsSocket == 4 && subscribesToConnect.length > 0) {
       const subscribe = subscribesToConnect[0];
 
       doSubscribe(subscribe);
@@ -95,7 +107,7 @@ export const Sala = () => {
 
   useEffect(() => {
     if (countSubscribes == SUBSCRIBES.length) {
-      if (location.state == 'entrar' && !userGlobal.exit) {
+      if (location.state == "entrar" && !userGlobal.exit) {
         const userInfo = {
           ...userGlobal,
           exit: true,
@@ -103,13 +115,13 @@ export const Sala = () => {
 
         setUserGlobal({ ...userInfo });
 
-        localStorage.setItem('user', JSON.stringify({ ...userInfo }));
+        localStorage.setItem("user", JSON.stringify({ ...userInfo }));
       } else {
         disconnetSala(true);
       }
 
-      useStomp.send(
-        '/sala/join',
+      useStompPublic.send(
+        "/sala/join",
         {},
         JSON.stringify({ nome: userGlobal.nome })
       );
@@ -118,76 +130,187 @@ export const Sala = () => {
     }
   }, [countSubscribes]);
 
+  useEffect(() => {
+
+    const perfilsChanged = document.getElementsByClassName("changed")
+
+    if (perfilsChanged) {
+
+      for (let perfil of perfilsChanged) {
+        console.log(perfil)
+        perfil.style.animation = "fadein 1.5s"
+      }
+
+    }
+
+  }, [perfils])
+
+  useEffect(() => {
+    const pergunta = document.getElementById("pergunta");
+    const resposta = document.getElementById("resposta");
+
+    if (pergunta) {
+      pergunta.style.animation = "fadein 1s";
+    }
+
+    if (resposta) {
+      resposta.style.animation = "fadein 1s";
+    }
+  }, [pergunta]);
+
+  useEffect(() => {
+    const respostaPerguntaUsuario = document.getElementById("resposta-usuario");
+
+    if (respostaPerguntaUsuario) {
+      respostaPerguntaUsuario.style.animation = "fadein 1s";
+    }
+  }, [respostaUsuario]);
+
+  useEffect(() => {
+    const fimDeJogo = document.getElementById("placar");
+
+    if (fimDeJogo) {
+      fimDeJogo.style.animation = "fadein 1s";
+    }
+  }, [fimDeJogo]);
+
+  useEffect(() => {
+    const textIniciar = document.getElementById("texto-iniciar");
+
+    if (textIniciar) {
+      textIniciar.style.animation = "fadein 3s";
+    }
+  }, [contagemIniciar]);
+
+  useEffect(() => {
+    if (perfilsUpdate) {
+      if (perfils.length == perfilsUpdate.length) {
+        perfilsUpdate.forEach((perfilNovo) => {
+          const perfilVelho = perfils.find((p) => p.nome == perfilNovo.nome);
+
+          if (perfilVelho.pontos != perfilNovo.pontos) {
+            perfilNovo.changed = true;
+          } else {
+            perfilNovo.changed = false;
+          }
+        });
+      } else if (perfilsUpdate.length > perfils.length) {
+        perfilsUpdate.forEach((perfil1) => {
+          const achouPerfil = perfils.find(
+            (perfil2) => perfil1.nome == perfil2.nome
+          );
+
+          if (!achouPerfil) {
+            perfil1.changed = true;
+          }
+        });
+      } else {
+        perfilsUpdate.forEach((perfil) => (perfil.changed = true));
+      }
+
+      setTimeout(() => setPerfils([...perfilsUpdate]), 100)
+    }
+  }, [perfilsUpdate]);
+
   const doSubscribe = (subscribe) => {
-    if (subscribe != 'principal') {
+    if (subscribe != "principal") {
       let fn = subscribe;
-      fn = 'on' + fn.charAt(0).toUpperCase() + fn.slice(1);
+      fn = "on" + fn.charAt(0).toUpperCase() + fn.slice(1);
       fn = eval(fn);
 
-      useStomp.subscribe(
-        '/' + subscribe + '/' + userGlobal.sala.senha,
-        (payload) => fn(payload),
-        { id: subscribe }
-      );
+      STOMP_TIPOS.forEach((stompTipo) => {
+        let stomp;
+        eval("stomp = useStomp" + stompTipo);
+
+        stomp.subscribe(
+          "/" +
+            subscribe +
+            "/" +
+            (stompTipo == "Public"
+              ? userGlobal.sala.webSocketKey
+              : md5Hex(userGlobal.sala.webSocketKey + userGlobal.nome)),
+          (payload) => fn(payload),
+          { id: subscribe }
+        );
+      });
     }
 
     setCountSubscribes((c) => c + 1);
   };
 
-  const verificarUsuarioHostService = async () => {
-    try {
-      const response = await verificarUsuarioHost();
+  const onRespostaAvancar = (payload) => {
+    let payloadData = JSON.parse(payload.body);
 
-      setUserIshost(response.usuarioEOHost);
-    } catch (error) {
-      verifySessionUser(error);
+    setRespostaAvancar(payloadData);
+  };
+
+  const onRespostaPergunta = (payload) => {
+    let payloadData = JSON.parse(payload.body);
+
+    if (!respostaPergunta) {
+      setRespostaPergunta(payloadData.resposta);
     }
   };
 
-  const onRespostaAvancar = () => {
-    setRespostaAvancar((r) => r + 1);
+  const onTempoRespostaPergunta = (payload) => {
+    let payloadData = JSON.parse(payload.body);
+
+    const progressBar = document.querySelector(".progress-bar");
+    progressBar.style.setProperty("--progress", payloadData);
+
+    if (payloadData == 100) {
+      setRespostaPergunta(null);
+    }
   };
 
   const onContagemIniciar = (payload) => {
-
     let payloadData = JSON.parse(payload.body);
 
-    setContagemIniciar(payloadData);
+    const progressBar = document.querySelector(".progress-bar");
+    progressBar.style.setProperty("--progress", payloadData);
+
+    if (!contagemIniciar) {
+      setContagemIniciar(true);
+    }
   };
 
-  const onNotification = (payload) => {
+  const onFimDeJogo = (payload) => {
     let payloadData = JSON.parse(payload.body);
-  
 
-    setGlobalModal((m) => [...m, { message: payloadData.content }]);
+    setFimDeJogo(payloadData.fimDeJogo);
+  };
+
+  const onJogoIniciou = (payload) => {
+    let payloadData = JSON.parse(payload.body);
+
+    setJogoIniciou(payloadData.jogoIniciou);
   };
 
   const onTempoPergunta = (payload) => {
     let payloadData = JSON.parse(payload.body);
 
-    setTempoPergunta(payloadData);
+    const progressBar = document.querySelector(".progress-bar");
+    progressBar.style.setProperty("--progress", payloadData);
+
+    if (payloadData == 100) {
+      setPergunta(null);
+    }
   };
 
   const onPergunta = (payload) => {
     let payloadData = JSON.parse(payload.body);
 
-    setPergunta(payloadData);
-  };
+    const progressBar = document.querySelector(".progress-bar");
+    progressBar.style.setProperty("--progress", 0);
 
-  const comecarRodada = () => {
-    useStomp.send(
-      '/sala/rodadas',
-      {},
-      JSON.stringify({ nome: userGlobal.nome })
-    );
+    setPergunta(payloadData);
+    setRespostaUsuario(null);
   };
 
   const onPerfil = (payload) => {
     let payloadData = JSON.parse(payload.body);
 
-    setPerfils(() => [...payloadData]);
-
-    verificarUsuarioHostService();
+    setPerfilsUpdate([...payloadData]);
   };
 
   const onChat = (payload) => {
@@ -203,14 +326,14 @@ export const Sala = () => {
         nome: userGlobal.nome,
       };
 
-      setUserData({ ...userData, mensagem: '' });
+      setUserData({ ...userData, mensagem: "" });
 
-      useStomp.send('/sala/message', {}, JSON.stringify(chatMessage));
+      useStompPublic.send("/sala/message", {}, JSON.stringify(chatMessage));
     }
   };
 
   const scrollDownChat = () => {
-    var element = document.getElementById('chat');
+    var element = document.getElementById("chat");
     element.scrollTop = element.scrollHeight;
   };
 
@@ -220,30 +343,65 @@ export const Sala = () => {
     const userInfo = {
       ...userGlobal,
       sala: null,
+      exit: true,
     };
 
     setUserGlobal({ ...userInfo });
 
-    localStorage.setItem('user', JSON.stringify({ ...userInfo }));
+    localStorage.setItem("user", JSON.stringify({ ...userInfo }));
 
-    useStomp.disconnect();
+    useStompPublic.disconnect();
+    useStompPrivate.disconnect();
 
-    navigate('/criar-sala', { state: error ? 'error' : 'exit' });
+    navigate("/criar-sala", { state: error ? "error" : "exit" });
   };
 
   const votarAvancar = () => {
-    useStomp.send('/sala/rodada', {}, JSON.stringify({ nome: userGlobal.nome }));
+    useStompPublic.send(
+      "/sala/rodada",
+      {},
+      JSON.stringify({ nome: userGlobal.nome })
+    );
     setJaVotouAvancar(true);
   };
 
-  const returnSalaState = () => {
+  const enviarRespostaUsuario = (resposta) => {
+    if (!respostaUsuario) {
+      const progressBar = document.querySelector(".progress-bar");
+      const tempoPergunta = progressBar.style.getPropertyValue("--progress");
+
+      setRespostaUsuario(resposta);
+
+      useStompPublic.send(
+        "/sala/resposta",
+        {},
+        JSON.stringify({
+          nome: userGlobal.nome,
+          resposta: resposta,
+          contagem: tempoPergunta,
+        })
+      );
+    }
+  };
+
+  const ReturnSalaState = () => {
     if (!loading) {
-      if (gameIsEnd) {
+      if (fimDeJogo) {
+        const placar = ["gold", "silver", "brown"];
+        const valorYHorizontal = 20;
+
         return (
-          <div className="Sala-placar">
-            {perfils.slice(0, 2).map((perfil, key) => (
-              <div className="Sala-placar-colocacao" key={key}>
-                <div className="Sala-placar-content">
+          <div className="Sala-placar" id="placar">
+            <div className="Sala-placar-colocacao">
+              {perfils.slice(0, 3).map((perfil, key) => (
+                <div
+                  className="Sala-placar-content"
+                  style={{
+                    backgroundColor: placar[key],
+                    marginBottom: valorYHorizontal / key + 1,
+                  }}
+                  key={key}
+                >
                   <p> Pontos: {perfil.pontos} </p>
 
                   <div className="Sala-placar-content-foto">
@@ -252,69 +410,117 @@ export const Sala = () => {
 
                   <p> {perfil.nome} </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         );
-      } else {
+      } else if (jogoIniciou) {
         if (pergunta) {
+          const corRespostas = ["red", "blue", "green", "yellow", "purple"];
+
           return (
-            <div className="Sala-pergunta">
+            <div className="Sala-pergunta" id="pergunta">
               <div className="Sala-pergunta-questao">
-                <a href={pergunta.link}>Link questao</a>
                 <img src={pergunta.questao} />
               </div>
 
-              <div className="Sala-pergunta-respostas">
-                {RESPOSTAS.map((resposta, key) => (
-                  <div className="Sala-pergunta-resposta" key={key}>
-                    {resposta}
-                  </div>
-                ))}
+              <div className="Sala-pergunta-respostas" id="resposta-usuario">
+                {RESPOSTAS.map((resposta, key) => {
+                  if (!respostaUsuario || resposta == respostaUsuario) {
+                    return (
+                      <button
+                        className="button-2 Sala-pergunta-resposta"
+                        onClick={() => enviarRespostaUsuario(resposta)}
+                        disabled={respostaUsuario ? true : false}
+                        style={{
+                          backgroundColor: corRespostas[key],
+                          filter: respostaUsuario != "" ? "grayscale(50%)" : "",
+                        }}
+                        key={key}
+                      >
+                        {resposta}
+                      </button>
+                    );
+                  }
+                })}
               </div>
             </div>
           );
-        } else if (perfils.length > 0) {
+        } else if (respostaPergunta) {
           return (
-            <div className="Sala-inicio">
-              <div className="Sala-inicio-content">
-                {respostaAvancar < perfils.length ? (
-                  <>
-                    <div className="Sala-inicio-text">
-                      <p>
-                        {respostaAvancar} / {perfils.length}
-                      </p>
+            <div className="Sala-resposta-pergunta" id="resposta">
+              <div className="Sala-resposta-pergunta-content">
+                <p> A resposta para a pergunta é... </p>
 
-                      <p> Votação iniciar... </p>
-                    </div>
-
-                    <button disabled={jaVotouAvancar} onClick={votarAvancar}>
-                      Votar
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <p> O jogo vai começar em... </p>
-                    <p> {contagemIniciar} </p>
-                  </>
-                )}
+                <span> {respostaPergunta} </span>
               </div>
             </div>
           );
         }
+      } else {
+        return (
+          <div className="Sala-inicio">
+            <div className="Sala-inicio-content">
+              {!contagemIniciar ? (
+                <>
+                  <div className="Sala-inicio-text">
+                    <p>
+                      {respostaAvancar} / {perfils.length}
+                    </p>
+
+                    <p> Votação iniciar... </p>
+                  </div>
+
+                  <button
+                    className="button-1"
+                    disabled={jaVotouAvancar}
+                    onClick={votarAvancar}
+                  >
+                    Votar
+                  </button>
+                </>
+              ) : (
+                <p id="texto-iniciar"> O jogo já vai começar... </p>
+              )}
+            </div>
+          </div>
+        );
       }
     }
+  };
+
+  const ReturnProfiles = () => {
+    return (
+      <>
+        {perfils.length > 0
+          ? perfils.map((perfil, key) => (
+              <div
+                className={
+                  "Sala-perfils-perfil" + (perfil.changed ? " changed" : "")
+                }
+                key={key}
+              >
+                <div className="Sala-perfils-foto">
+                  <img src={perfil.imagemPerfil} />
+                </div>
+                <div className="Sala-perfils-content">
+                  <p> {perfil.nome} </p>
+                  <p> Pontos: {perfil.pontos} </p>
+                </div>
+              </div>
+            ))
+          : null}
+      </>
+    );
   };
 
   return (
     <div className="Sala-section">
       <div className="Sala-container efeito-vidro">
         <div className="Sala-header">
-          <button onClick={() => disconnetSala(false)}>voltar</button>
-
-          <div className="Sala-header-tempo-rodada">
-            <p> {tempoPergunta} </p>
-          </div>
+          <button className="button-1" onClick={() => disconnetSala(false)}>
+            voltar
+          </button>
 
           <div className="Sala-header-numero-jogadores">
             {perfils.length} / {userGlobal.sala.numeroJogadores}
@@ -322,21 +528,16 @@ export const Sala = () => {
         </div>
         <div className="Sala-content">
           <div className="Sala-perfils">
-            {perfils.length > 0
-              ? perfils.map((perfil, key) => (
-                  <div className="Sala-perfils-perfil" key={key}>
-                    <div className="Sala-perfils-foto">
-                      <img src={perfil.imagemPerfil} />
-                    </div>
-                    <div className="Sala-perfils-content">
-                      <p> {perfil.nome} </p>
-                      <p> Pontos: {perfil.pontos} </p>
-                    </div>
-                  </div>
-                ))
-              : null}
+            <ReturnProfiles />
           </div>
-          <div className="Sala-state">{returnSalaState()}</div>
+          <div className="Sala-state">
+            <div className="Sala-progress-bar">
+              <div className="progress-bar"></div>
+            </div>
+            <div className="Sala-jogo">
+              <ReturnSalaState />
+            </div>
+          </div>
           <div className="Sala-chat">
             <div className="Sala-chat-content" id="chat">
               {chat.length > 0
@@ -345,11 +546,11 @@ export const Sala = () => {
                       className="Sala-chat-mensagem"
                       style={{
                         textDecoration:
-                          mensagem.nome == ('Sala' ? 'underline' : 'none'),
+                          mensagem.nome == ("Sala" ? "underline" : "none"),
                         backgroundColor:
                           mensagem.nome == userGlobal.nome
-                            ? 'var(--main-quaternary-color)'
-                            : '',
+                            ? "var(--main-quaternary-color)"
+                            : "",
                       }}
                       key={key}
                     >
@@ -365,7 +566,9 @@ export const Sala = () => {
                 placeholder="comente aqui..."
                 onChange={handlerValue}
               />
-              <button onClick={sendMessage}>Enviar</button>
+              <button className="button-1" onClick={sendMessage}>
+                Enviar
+              </button>
             </div>
           </div>
         </div>

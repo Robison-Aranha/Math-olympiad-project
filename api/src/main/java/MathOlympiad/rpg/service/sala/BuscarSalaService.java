@@ -23,7 +23,7 @@ public class BuscarSalaService {
 
     public Sala porNomeUsuario(String nome) {
 
-        return usuarioRepository.findByNome(nome).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado para este nome@")).getSalaAParticipar();
+        return usuarioRepository.findByNome(nome).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado para este nome!")).getSalaAParticipar();
 
     }
 
@@ -37,6 +37,10 @@ public class BuscarSalaService {
 
         return salaRepository.findBySenha(senha).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma sala para esta senha!"));
 
+    }
+
+    public Sala porWebSocketKey(String webSocketKey) {
+        return salaRepository.findByWebSocketKey(webSocketKey).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sala não encontrada!"));
     }
 
     public Optional<Sala> porNome(String nome) {

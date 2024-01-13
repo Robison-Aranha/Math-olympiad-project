@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TEMAS } from "../../../consts/temas";
+import { TEMAS } from "../../../consts/consts";
 import { useSala } from "../../../api/api";
 import { useVerifySession } from "../../../api/verifySession";
 import {
@@ -30,22 +30,19 @@ export const CriarSala = () => {
   const location = useLocation();
 
   useEffect(() => {
-
-    console.log(location)
-    console.log(userGlobal)
-
     if (location.state == "error" && userGlobal.exit) {
       setGlobalModal([...globalModal, { message: "Erro! Disconectado..." }]);
-      
+    }
+
       const userInfo = {
         ...userGlobal,
         exit: false,
       };
-  
+
       setUserGlobal({ ...userInfo });
-  
+
       localStorage.setItem("user", JSON.stringify({ ...userInfo }));
-    }
+    
   }, []);
 
   const criarSalaService = async () => {
@@ -66,7 +63,7 @@ export const CriarSala = () => {
         const userInfo = {
           ...userGlobal,
           sala: {
-            senha: response.senha,
+            webSocketKey: response.webSocketKey,
             numeroJogadores: response.numeroJogadores,
           },
         };
@@ -203,7 +200,7 @@ export const CriarSala = () => {
           ))}
         </div>
         <div className="CriarSala-input">
-          <button onClick={criarSalaService}>Criar</button>
+          <button className="button-1" onClick={criarSalaService}>Criar</button>
         </div>
       </div>
     </div>

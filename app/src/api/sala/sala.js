@@ -1,12 +1,27 @@
 import axios from "axios";
 import { BaseUrl } from "../BaseUrl";
+import { userGlobalState } from "../../globalState/globalSate";
+import { useEffect } from "react";
+
 
 const http = axios.create({
   baseURL: BaseUrl + "/sala",
-  withCredentials: true,
+  withCredentials: true
 });
 
 export const useSala = () => {
+
+
+  const [userGlobal, ] = userGlobalState()
+
+  useEffect(() => {
+
+    http.defaults.headers.common['Authorization'] = "Bearer " + userGlobal.token
+
+  }, [userGlobal.token])
+
+
+
   const criarSala = async (
     nome,
     senha,

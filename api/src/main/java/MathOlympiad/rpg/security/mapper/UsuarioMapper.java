@@ -20,4 +20,14 @@ public class UsuarioMapper {
                 .build();
     }
 
+    public static UsuarioResponse toResponseToken(Usuario entity, String token) {
+        return UsuarioResponse.builder()
+                .id(entity.getId())
+                .nome(entity.getNome())
+                .token(token)
+                .imagemPerfil(entity.getImagem())
+                .build();
+    }
+
+
 }

@@ -38,7 +38,7 @@ export const EntrarSalaModal = ({ sala, onClose }) => {
       const userInfo = {
         ...userGlobal,
         sala: {
-          senha: response.senha,
+          webSocketKey: response.webSocketKey,
           numeroJogadores: response.numeroJogadores,
         },
       };
@@ -65,7 +65,7 @@ export const EntrarSalaModal = ({ sala, onClose }) => {
       const userInfo = {
         ...userGlobal,
         sala: {
-          senha: response.senha,
+          webSocketKey: response.webSocketKey,
           numeroJogadores: response.numeroJogadores,
         },
       };
@@ -93,7 +93,7 @@ export const EntrarSalaModal = ({ sala, onClose }) => {
             onChange={handlerValue}
           />
           <div className="EntrarSalaModal-buttons">
-            <button onClick={entrarSalaPrivadaService}>Entrar</button>
+            <button className="button-1" onClick={entrarSalaPrivadaService}>Entrar</button>
           </div>
         </div>
       );

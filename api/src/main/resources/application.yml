@@ -23,4 +23,11 @@ server:
   error:
     include-message: always
 
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_KEY}
+    password:
+      secret-key: ${PASSWORD_KEY}
+
 

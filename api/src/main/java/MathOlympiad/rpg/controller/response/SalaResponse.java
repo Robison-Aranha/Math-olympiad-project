@@ -8,6 +8,6 @@ public class SalaResponse {
 
     private Integer numeroJogadores;
 
-    private String senha;
+    private String webSocketKey;
 
 }
