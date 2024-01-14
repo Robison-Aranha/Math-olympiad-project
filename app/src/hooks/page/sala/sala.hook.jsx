@@ -353,9 +353,10 @@ export const Sala = () => {
     navigate("/criar-sala", { state: error ? "error" : "exit" });
   };
 
-  const votarAvancar = (event) => {
+  const votarAvancar = (state) => {
+
     useStompPublic.send(
-      "/sala/rodada",
+      "/sala/" + (state ? "rodada" : "recomecar"),
       {},
       JSON.stringify({ nome: userGlobal.nome })
     );
@@ -403,7 +404,7 @@ export const Sala = () => {
                 filter: jaVotouComecar ? "grayscale(70%)" : "",
                 animation: jaVotouComecar ? "fadein 1s" : "",
               }}
-              onClick={votarAvancar}
+              onClick={() => votarAvancar(state)}
             >
               Votar
             </button>

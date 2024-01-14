@@ -1,6 +1,7 @@
 package MathOlympiad.rpg.websocket;
 
 import MathOlympiad.rpg.domain.*;
+import MathOlympiad.rpg.enumerator.TemaPergunta;
 import MathOlympiad.rpg.repository.*;
 import MathOlympiad.rpg.service.pergunta.BuscarPerguntaService;
 import MathOlympiad.rpg.websocket.domain.*;
@@ -146,7 +147,7 @@ public class WebSocketController {
         respostaAvancar.setSala(sala);
         respostaAvancarRepository.save(respostaAvancar);
 
-        simpMessagingTemplate.convertAndSend("/reiniciar/" + sala.getWebSocketKey(), "recomecar");
+        simpMessagingTemplate.convertAndSend("/respostaAvancar/" + sala.getWebSocketKey(), sala.getRespostasAvancar().size() + 1);
 
         if (sala.getRespostasAvancar().size() + 1 == sala.getParticipantes().size()) {
             List<Pergunta> perguntas = buscarPerguntaService.buscarPorTema(sala.getTemas().stream().map(t -> t.getTema()).collect(Collectors.toList()), sala.getNumeroRodadas());

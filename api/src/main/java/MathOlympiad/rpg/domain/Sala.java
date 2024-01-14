@@ -59,7 +59,7 @@ public class Sala {
     )
     private List<Pergunta> perguntas = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "sala_tema",
             joinColumns = @JoinColumn(name = "id_sala"),

@@ -18,7 +18,7 @@ public class BuscarTemaService {
     TemaRepository temaRepository;
 
     public List<Tema> porTema(List<TemaPergunta> temas) {
-        return temaRepository.findAllByTemaIn(temas).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Tema encontrado para as correspondencias!"));
+        return temaRepository.findByTema(temas).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Tema encontrado para as correspondencias!"));
     }
 
 }
