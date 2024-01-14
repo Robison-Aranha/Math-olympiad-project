@@ -246,6 +246,7 @@
 
 .Sala-placar {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -258,6 +259,15 @@
   justify-content: center;
   width: 100%;
   height: 50%;
+}
+
+.Sala-placar-recomecar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40%;
 }
 
 .Sala-placar-content {
@@ -364,7 +374,7 @@
   font-size: 25px;
 }
 
-.Sala-inicio-text {
+.Sala-votacao {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -373,7 +383,7 @@
   height: 50%;
 }
 
-.Sala-inicio-text > p {
+.Sala-votacao > p {
   font-size: 20px;
   color: var(--main-quaternary-color);
 }

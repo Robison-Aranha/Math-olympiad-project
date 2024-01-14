@@ -151,6 +151,7 @@ public class WebSocketController {
         if (sala.getRespostasAvancar().size() + 1 == sala.getParticipantes().size()) {
             List<Pergunta> perguntas = buscarPerguntaService.buscarPorTema(sala.getTemas().stream().map(t -> t.getTema()).collect(Collectors.toList()), sala.getNumeroRodadas());
             sala.setPerguntas(perguntas);
+            sala.setJogoTerminou(false);
             salaRepository.save(sala);
 
             RodadaThread rodadaThread = new RodadaThread(buscarSalaService, salaRepository, simpMessagingTemplate, sala.getSenha());

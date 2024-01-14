@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   userGlobalState,
   useGlobalLoading,
-  useGlobalModal,
 } from "../../../globalState/globalSate";
 import {
   DOMAIN_SOCK,
@@ -39,13 +38,12 @@ export const Sala = () => {
   const [perfils, setPerfils] = useState([]);
   const [perfilsUpdate, setPerfilsUpdate] = useState();
   const [pergunta, setPergunta] = useState(false);
+  const [jaVotouComecar, setJaVotouComecar] = useState(false);
   const [votacaoPergunta, setVotacaoPergunta] = useState([]);
   const [contagemIniciar, setContagemIniciar] = useState(false);
   const [respostaAvancar, setRespostaAvancar] = useState(0);
   const [respostaPergunta, setRespostaPergunta] = useState("");
   const [respostaUsuario, setRespostaUsuario] = useState("");
-
-  const [jaVotouAvancar, setJaVotouAvancar] = useState(false);
 
   const [userData, setUserData] = useState({
     mensagem: "",
@@ -131,19 +129,15 @@ export const Sala = () => {
   }, [countSubscribes]);
 
   useEffect(() => {
-
-    const perfilsChanged = document.getElementsByClassName("changed")
+    const perfilsChanged = document.getElementsByClassName("changed");
 
     if (perfilsChanged) {
-
       for (let perfil of perfilsChanged) {
-        console.log(perfil)
-        perfil.style.animation = "fadein 1.5s"
+        console.log(perfil);
+        perfil.style.animation = "fadein 1.5s";
       }
-
     }
-
-  }, [perfils])
+  }, [perfils]);
 
   useEffect(() => {
     const pergunta = document.getElementById("pergunta");
@@ -175,7 +169,7 @@ export const Sala = () => {
   }, [fimDeJogo]);
 
   useEffect(() => {
-    const textIniciar = document.getElementById("texto-iniciar");
+    const textIniciar = document.getElementById("texto-votacao");
 
     if (textIniciar) {
       textIniciar.style.animation = "fadein 3s";
@@ -208,7 +202,7 @@ export const Sala = () => {
         perfilsUpdate.forEach((perfil) => (perfil.changed = true));
       }
 
-      setTimeout(() => setPerfils([...perfilsUpdate]), 100)
+      setTimeout(() => setPerfils([...perfilsUpdate]), 100);
     }
   }, [perfilsUpdate]);
 
@@ -277,6 +271,9 @@ export const Sala = () => {
   const onFimDeJogo = (payload) => {
     let payloadData = JSON.parse(payload.body);
 
+    setContagemIniciar(false)
+    setJaVotouComecar(false)
+    setRespostaAvancar(0)
     setFimDeJogo(payloadData.fimDeJogo);
   };
 
@@ -356,13 +353,14 @@ export const Sala = () => {
     navigate("/criar-sala", { state: error ? "error" : "exit" });
   };
 
-  const votarAvancar = () => {
+  const votarAvancar = (event) => {
     useStompPublic.send(
       "/sala/rodada",
       {},
       JSON.stringify({ nome: userGlobal.nome })
     );
-    setJaVotouAvancar(true);
+
+    setJaVotouComecar(true);
   };
 
   const enviarRespostaUsuario = (resposta) => {
@@ -384,11 +382,44 @@ export const Sala = () => {
     }
   };
 
+  const Votacao = ({ state }) => {
+
+    return (
+      <>
+        {!contagemIniciar ? (
+          <>
+            <div className="Sala-votacao">
+              <p>
+                {respostaAvancar} / {perfils.length}
+              </p>
+
+              <p> { state ? "Votação iniciar..." : "Votação reiniciar..." } </p>
+            </div>
+
+            <button
+              className="button-1"
+              disabled={jaVotouComecar}
+              style={{
+                filter: jaVotouComecar ? "grayscale(70%)" : "",
+                animation: jaVotouComecar ? "fadein 1s" : "",
+              }}
+              onClick={votarAvancar}
+            >
+              Votar
+            </button>
+          </>
+        ) : (
+          <p id="texto-votacao"> { state ? "O jogo já vai começar..." : "Espere o jogo recomeçar..."} </p>
+        )}
+      </>
+    );
+  };
+
   const ReturnSalaState = () => {
     if (!loading) {
       if (fimDeJogo) {
         const placar = ["gold", "silver", "brown"];
-        const valorYHorizontal = 20;
+        const valorYHorizontal = 1000;
 
         return (
           <div className="Sala-placar" id="placar">
@@ -398,7 +429,7 @@ export const Sala = () => {
                   className="Sala-placar-content"
                   style={{
                     backgroundColor: placar[key],
-                    marginBottom: valorYHorizontal / key + 1,
+                    marginBottom: valorYHorizontal / ((key + 1) * 10),
                   }}
                   key={key}
                 >
@@ -411,6 +442,9 @@ export const Sala = () => {
                   <p> {perfil.nome} </p>
                 </div>
               ))}
+            </div>
+            <div className="Sala-placar-recomecar">
+              <Votacao state={false} />
             </div>
           </div>
         );
@@ -461,27 +495,7 @@ export const Sala = () => {
         return (
           <div className="Sala-inicio">
             <div className="Sala-inicio-content">
-              {!contagemIniciar ? (
-                <>
-                  <div className="Sala-inicio-text">
-                    <p>
-                      {respostaAvancar} / {perfils.length}
-                    </p>
-
-                    <p> Votação iniciar... </p>
-                  </div>
-
-                  <button
-                    className="button-1"
-                    disabled={jaVotouAvancar}
-                    onClick={votarAvancar}
-                  >
-                    Votar
-                  </button>
-                </>
-              ) : (
-                <p id="texto-iniciar"> O jogo já vai começar... </p>
-              )}
+              <Votacao state={true} />
             </div>
           </div>
         );
