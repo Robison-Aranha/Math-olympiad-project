@@ -1,7 +1,6 @@
 package MathOlympiad.rpg.websocket;
 
 import MathOlympiad.rpg.domain.*;
-import MathOlympiad.rpg.enumerator.TemaPergunta;
 import MathOlympiad.rpg.repository.*;
 import MathOlympiad.rpg.service.pergunta.BuscarPerguntaService;
 import MathOlympiad.rpg.websocket.domain.*;

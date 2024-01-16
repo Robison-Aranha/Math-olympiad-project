@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
+
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -25,4 +28,7 @@ public class Tema {
     @Column(columnDefinition = "tema_pergunta")
     @Type(PostgreSQLEnumType.class)
     private TemaPergunta tema;
+
+    @OneToMany(mappedBy = "tema")
+    List<Pergunta> perguntas;
 }

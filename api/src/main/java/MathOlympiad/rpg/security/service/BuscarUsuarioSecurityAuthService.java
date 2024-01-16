@@ -5,7 +5,6 @@ import MathOlympiad.rpg.repository.UsuarioRepository;
 import MathOlympiad.rpg.security.controller.request.UsuarioRequest;
 import MathOlympiad.rpg.security.controller.response.UsuarioResponse;
 import MathOlympiad.rpg.security.jwt.JwtService;
-import MathOlympiad.rpg.security.repository.TokenRepository;
 import MathOlympiad.rpg.service.VerificarParametrosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

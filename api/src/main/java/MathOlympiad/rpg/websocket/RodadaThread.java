@@ -7,11 +7,8 @@ import MathOlympiad.rpg.service.sala.BuscarSalaService;
 import MathOlympiad.rpg.websocket.domain.*;
 import lombok.Data;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;

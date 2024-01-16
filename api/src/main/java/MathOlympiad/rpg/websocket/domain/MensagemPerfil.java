@@ -1,7 +1,7 @@
 package MathOlympiad.rpg.websocket.domain;
 
 
-import MathOlympiad.rpg.websocket.enumerator.TipoMensagemPerfil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

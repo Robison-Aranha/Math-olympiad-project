@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url:  jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
+
+server:
+  error:
+    include-message: always
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_KEY}
+    password:
+      secret-key: ${PASSWORD_KEY}
+
+

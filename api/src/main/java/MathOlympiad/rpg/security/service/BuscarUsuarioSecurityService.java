@@ -4,7 +4,6 @@ import MathOlympiad.rpg.domain.Usuario;
 import MathOlympiad.rpg.repository.UsuarioRepository;
 import MathOlympiad.rpg.security.domain.UsuarioSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

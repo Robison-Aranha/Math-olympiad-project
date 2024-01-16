@@ -4,7 +4,6 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
-    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: none
@@ -29,5 +28,4 @@ application:
       secret-key: ${JWT_KEY}
     password:
       secret-key: ${PASSWORD_KEY}
-
 

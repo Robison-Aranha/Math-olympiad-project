@@ -1,12 +1,12 @@
 package MathOlympiad.rpg.domain;
 
 
-import MathOlympiad.rpg.repository.RespostaPerguntaRepository;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.ArrayList;
 import java.util.List;

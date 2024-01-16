@@ -273,6 +273,7 @@ export const Sala = () => {
 
     setContagemIniciar(false)
     setJaVotouComecar(false)
+    setJogoIniciou(false)
     setRespostaAvancar(0)
     setFimDeJogo(payloadData.fimDeJogo);
   };
@@ -280,6 +281,7 @@ export const Sala = () => {
   const onJogoIniciou = (payload) => {
     let payloadData = JSON.parse(payload.body);
 
+    setFimDeJogo(false)
     setJogoIniciou(payloadData.jogoIniciou);
   };
 

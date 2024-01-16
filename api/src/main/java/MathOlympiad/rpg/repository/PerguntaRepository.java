@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
 
-    @Query(value = "select p from Pergunta p where p.tema in :temas order by random() limit :quantidade")
+    @Query(value = "select p from Pergunta p where p.tema.tema in :temas order by random() limit :quantidade")
     Optional<List<Pergunta>> findPerguntaTemas(List<TemaPergunta> temas, Integer quantidade);
 }

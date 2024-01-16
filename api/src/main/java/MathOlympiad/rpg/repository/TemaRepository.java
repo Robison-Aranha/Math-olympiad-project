@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface TemaRepository extends JpaRepository<Tema, Long> {
 
-   @Query(value = "select t from Tema t where (t.tema in :temas)")
+   @Query(value = "select t from Tema t where t.tema in :temas")
    Optional<List<Tema>> findByTema(List<TemaPergunta> temas);
 }
