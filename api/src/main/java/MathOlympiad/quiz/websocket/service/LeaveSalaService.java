@@ -23,6 +23,7 @@ import MathOlympiad.quiz.service.sala.DeleteSalaService;
 import MathOlympiad.quiz.service.usuario.BuscarUsuarioService;
 import MathOlympiad.quiz.websocket.RodadaThread;
 import MathOlympiad.quiz.websocket.domain.Mensagem;
+import MathOlympiad.quiz.websocket.domain.MensagemJogo;
 import MathOlympiad.quiz.websocket.domain.MensagemPerfil;
 import MathOlympiad.quiz.websocket.domain.MensagemRequest;
 
@@ -46,6 +47,9 @@ public class LeaveSalaService {
 
 	@Autowired
 	DeleteSalaService deleteSalaService;
+
+	@Autowired
+	RecomecarRodadaService recomecarRodadaService;
 
 	public void sair(SessionDisconnectEvent event) {
 		StompHeaderAccessor wrap = StompHeaderAccessor.wrap(event.getMessage());
@@ -83,14 +87,11 @@ public class LeaveSalaService {
 					simpMessagingTemplate.convertAndSend("/respostaAvancar/" + sala.getWebSocketKey(),
 							sala.getRespostasAvancar().size());
 
-					if (!sala.isJogoIniciou() && !sala.isJogoTerminou()) {
+					if (!sala.isJogoIniciou()) {
 						if (sala.getRespostasAvancar().size() == sala.getParticipantes().size()) {
-
-							RodadaThread rodadaThread = new RodadaThread(buscarSalaService, salaRepository,
-									simpMessagingTemplate, sala.getSenha());
-							Thread thread = new Thread(rodadaThread);
-							thread.start();
-
+							MensagemJogo mensagemJogo = new MensagemJogo();
+							mensagemJogo.setNome(mensagemRequest.getNome());
+							recomecarRodadaService.recomecar(mensagemJogo);
 						}
 					}
 				}
